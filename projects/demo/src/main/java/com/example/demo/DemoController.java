@@ -8,7 +8,7 @@ public class DemoController {
 
     @RequestMapping("/")
     public String hello() {
-        return "Hello, nice too meet you.";
+        return "Hello, welcome to use the container.";
     }
 
 }

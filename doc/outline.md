@@ -5,7 +5,8 @@
     Day-01-大綱與架構    
 - Kubernetes 簡介
     Day-02-Container 是什麼
-    Day-03-Docker 介紹
+    Day-03-Docker 介紹-如何使用 Containar Image
+    Day-04-Docker 介紹-建立自己的 Containar Image
     Day-03-為什麼要用 Kubernetes     
 - 容器化
     - Day-04-如何將應用軟體容器化
