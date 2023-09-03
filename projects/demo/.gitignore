@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# 忽略目錄中及其子目錄中的.DS_Store檔案
+.DS_Store
+
 ### STS ###
 .apt_generated
 .classpath
