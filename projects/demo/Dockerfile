@@ -1,10 +1,13 @@
-# 使用 OpenJDK 17 作為基本映像
-FROM openjdk:17
+FROM arm64v8/eclipse-temurin:17.0.8.1_1-jre-ubi9-minimal
 
-# 在容器中創建一個目錄以存放應用程序 JAR 文件
 WORKDIR /app
 
-# 複製本地的 JAR 文件到容器中
+# 創建一個非 root 用戶
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+
+# 切換到用戶 appuser
+USER appuser
+
 COPY target/demo.jar /app/application.jar
 
 # 定義容器啟動命令，運行 JAR 文件
