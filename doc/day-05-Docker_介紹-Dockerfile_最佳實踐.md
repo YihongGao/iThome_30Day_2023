@@ -104,5 +104,10 @@ secrets/
 passwords/
 ```
 
+# 於生產環境，避免使用 latest tag 的 Image
+latest 通常用於標記最新版的 Image，而且通常是不穩定的，Container 的內容會隨著作者更新而改變，利如今天 `docker pull nginx:latest` 下載到的 Image 是運行 1.25 版的 nginx，過幾個月你移除本地 latest Image 或在別台主機上重新執行 `docker pull nginx:latest` 下載到的 Image，可能運行的就是 1.26 版的 nginx 了。
+
+於生產環境我們會盡量避免非預期且不穩定的改動，每次更新版本都希望是計畫性的，所以建議使用 `docker pull nginx:1.25` 這種明確選擇版本的 tag。
+
 # 總結
 今天介紹了一些撰寫 Dockerfile 的最佳實踐，其中包含了安全性、性能與可維護性等議題，希望讀者能建構更安全、高效與容易維護的 Image。
