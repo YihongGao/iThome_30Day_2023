@@ -5,13 +5,15 @@
     Day-01-大綱與架構    
 - Kubernetes 簡介
     Day-02-Container 是什麼
-    Day-03-Docker 介紹-如何使用 Containar Image
-    Day-04-Docker 介紹-建立自己的 Containar Image
-    Day-05-為什麼要用 Kubernetes  
+    Day-03-Docker_介紹.md
+    Day-04-Docker_介紹-build_image
+    Day-05-Docker_介紹-Dockerfile_最佳實踐
+    Day-06-Kubernetes_介紹
   - Kubernetes 的組件    
-      - Day-06-k8s基礎-Pod
-      - Day-07-k8s基礎-Deployment
-      - Day-08-k8s基礎-Service
+      - Day-07-k8s基礎-Pod
+      - Day-08-k8s基礎-Deployment
+      - Day-09-k8s基礎-Service
+      - Day-10-ingress
       - Day-08-k8s基礎-DaemonSet    
 - 環境配置
     - Day-09-於 AWS 建置 Kubernetes (EKS)    
