@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-deployment
+  template:
+    metadata:
+      labels:
+        app: demo-deployment
+    spec:
+      containers:
+        - name: app
+          image: yihonggaotw/demo-image:v2
+          envFrom: # 將 ConfigMap 注入此容器
+            - configMapRef:
+                name: demo-config # 注入的 ConfigMap 名稱

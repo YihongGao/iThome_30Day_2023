@@ -17,7 +17,7 @@
 > JAR file 是一種 Java 部署和分發的常用文件格式，通常就是一個服務或函式庫，再這裡 JAR file 的內容就是要打包近 Container Image 的 API 服務。
 - 選項一：使用 maven 指令打包
     ```
-    .mvnw clean package
+    ./mvnw clean package
     ```
     能在 target 目錄中看到編譯好的 JAR file(demo.jar)，這就是我們稍後要包進 Container 中的 jar。
     ```
