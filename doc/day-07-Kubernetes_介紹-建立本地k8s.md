@@ -1,4 +1,4 @@
-# Day-07-Kubernetes_介紹-建立本地 Kubernetes
+# Day-07-Kubernetes_介紹-建立本地 Kubernetes 環境
 
 # 前言
 接下來幾天會開始介紹 Kubernetes 常用的組件(Pod, Deployment, Service..)，在認識這些組件的時候，希望讀者也能透過實際操作來加深印象，所以先介紹怎麼透過 `kind` 在本地快速的搭建 Kubernetes 環境，並使用 `kubectl` 操作你的 Kubernetes 環境。

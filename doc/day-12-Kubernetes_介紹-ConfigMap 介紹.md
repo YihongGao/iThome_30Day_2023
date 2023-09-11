@@ -1,4 +1,4 @@
-# Day-11-Kubernetes_介紹-ConfigMap
+# Day-12-Kubernetes_介紹-ConfigMap
 
 # 前言
 今天來介紹一下 ConfigMap，我們在介紹 Container 時，有介紹到容器具有**一致的環境**、**依賴項管理左移** 的特性，讓 Container 具有良好的可移植性。
@@ -15,41 +15,30 @@
 今天介紹的 ConfigMap，就是 Kubernetes 提供給我們集中管理這類配置的資源。
 
 # 什麼是 ConfigMap
-ConfigMap 提供 key-value pairs 的方式來儲存配置，讓 Pod 可以依照需要將 ConfigMap 透過環境變數、檔案，命令參數等方式提供給應用程序，讓容器與配置解耦。
+ConfigMap 提供 key-value pairs 的方式來儲存配置，且可以透過以下形式提供給 Pod中的應用程序 使用。
+- 環境變數
+- 掛載檔案
+- 命令行參數
 
-能透過 `kubectl` 使用以下方式建立 ConfigMap
-
-- 從文件創建（Create from File）：使用 kubectl create configmap 命令，您可以從本地文件或目錄中的配置數據創建 ConfigMap。例如：
+`kubectl` 提供使用以下方式建立 ConfigMap
+- 從文件創建（Create from File）：從本地文件或目錄中的配置數據創建 ConfigMap。例如：
     ```
     kubectl create configmap my-config --from-file=config-files/
     ```
-- 指定 Key-Value：使用 kubectl create configmap 命令，您可以直接指定配置數據的鍵值對，而無需從文件中讀取。例如：
+- 指定 Key-Value：直接指定配置數據的鍵值對，而無需從文件中讀取。例如：
     ```
     kubectl create configmap my-config --from-literal=key1=value1 --from-literal=key2=value2
     ```
-- 從 yaml 建立：您可以創建一個包含 ConfigMap 定義的 YAML 文件，然後使用 kubectl apply 命令將其應用到集群中。
+- 從 yaml 建立：從一個包含 ConfigMap 定義的 YAML 文件，然後使用 kubectl apply 命令將其應用到集群中。
     ```
     kubectl apply -f my-config.yaml
     ```
-  
-實務上，我們為了同一份代碼，能在本地運行方便開發，又能與配置解耦，通常會透過**環境變數**的方式並搭配預設值，讓應用程序使用配置時，遵循以下規則選擇配置
-    1. 當該配置對應的環境變數存在時，應用程序使用環境變數之值
-    2. 若不存在，使用應用程序的預設值
 
-已 Spring boot 為例，application.yml 中配置方式如下
-```
-# 使用 SpEL 表達式來設置參數，並指定預設值
-app:
-  welcome:
-    message: ${APP.WELCOME.MESSAGE: Hello, World}
-```
-意思是 app.welcome.message 這個配置的值會先從**先從環境變數**的`APP.WELCOME.MESSAGE` 取得，若該環境變數不存在，則使用 Hello, World 當作配置值。
-
-讓我們透過 `kubectl` 建立一個 ymal，並介紹其中的屬性
+讓我們透過 `kubectl` 建立一個 demo-config.yaml，並介紹其中的屬性
 ```
 kubectl create configmap demo-config --dry-run=client -o yaml --from-literal=APP.WELCOME.MESSAGE="Hello, ConfigMap" --from-literal=APP.ENV=kind > demo-config.yaml 
 ```
-會產生一個 demo-config.yaml 
+demo-config.yaml 內容
 ```
 apiVersion: v1
 data:
@@ -66,11 +55,32 @@ ConfigMap 的 yaml 格式非常簡單，能看到資料存放於 `data` 欄位�
 | APP.WELCOME.MESSAGE| Hello, ConfigMap |
 | APP.ENV            | kind           |
 
+我們透過該 yaml 建立 configMap 資源，方便後面實作進行測試
+```
+# apply yaml
+kubectl apply -f demo-config.yaml
+
+# 查詢建立的 configMap
+kubectl get configMap demo-config
+```
 
 ## 實作
-使用一個簡單的 Spring boot project，並提供兩個 API
+實務上，我們為了同一份代碼，能在本地運行方便開發，又能與配置解耦，通常會透過**環境變數**的方式並搭配預設值，讓應用程序使用配置時，遵循以下規則選擇配置
+  1. 當該配置對應的環境變數存在時，應用程序使用環境變數之值    
+  2. 若不存在，使用應用程序的預設值
+
+已 Spring boot 為例，application.yml 中配置方式如下
+```
+# 使用 SpEL 表達式來設置參數，並指定預設值
+app:
+  welcome:
+    message: ${APP.WELCOME.MESSAGE: Hello, World}
+```
+意思是 app.welcome.message 這個配置的值會先從**先從環境變數**的`APP.WELCOME.MESSAGE` 取得，若該環境變數不存在，則使用 Hello, World 當作配置值。
+
+使用一個簡單的 [範例應用程序](https://github.com/YihongGao/iThome_30Day_2023/tree/main/projects/demo)，這個應用程序提供兩個 API
 - localhost:8080: 返回值使用環境變數 `APP.WELCOME.MESSAGE` 之值，若該變數不存在時，返回 `Hello, welcome to use the container.`
-- localhost:8080: 返回值使用環境變數 `APP.ENV` 之值，若該變數不存在時，返回 `local`
+- localhost:8080/env: 返回值使用環境變數 `APP.ENV` 之值，若該變數不存在時，返回 `local`
 
 搭配上面建立的 configMap 來建立一個 deployment，並使用該 configMap 當作配置檔
 ```
@@ -93,25 +103,26 @@ spec:
       containers:
         - name: app
           image: yihonggaotw/demo-image:v2
-          envFrom: # 將 ConfigMap 注入此容器
-            - configMapRef:
+          envFrom: # 將 ConfigMap 注入此容器的環境變數
+            - configMapRef: 
                 name: demo-config # 注入的 ConfigMap 名稱
 EOF
 ```
 
 ## 測試
 ```
-# 查該 Deployment 生成的 Pod name
-kubectl get pod --selector app=demo-deployment
-
 # 將該 Pod 服務轉發至本地 8080 port 提供測試
-kubectl port-forward pods/${你的 pod name} 8080:8080
+kubectl port-forward deployments/demo-deployment 8080:8080
 ```
 - 測試 localhost:8080，預期結果為 `Hello, ConfigMap` 而不是預設得 `Hello, welcome to use the container.`
 ![hello-configMap](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230911/截圖-2023-09-12-上午12.11.51.11trm2d6ti4.webp)
 
 - 測試 localhost:8080/env，預期結果為 `kind` 而不是預設得 `local`
 ![hello-configMap](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230911/截圖-2023-09-12-上午12.11.03.2m6tksf94z40.webp)
+
+另外兩種使用方式
+- 將 ConfigMap 掛載(mount)到 Pod 中，成為一個檔案，能參考[官方用例](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#add-configmap-data-to-a-volume)
+- 應用於 Pod 啟動參數案，能參考[官方用例](案，能參考[官方用例](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#add-configmap-data-to-a-volume))
 
 # 使用 ConfigMap 該注意的事項
 - ConfigMap 中儲存的值是明文的，且不提供加密功能，故**不適合**存放機敏資訊(API token, Password..等資訊)
