@@ -10,17 +10,26 @@
     Day-05-Docker_介紹-Dockerfile_最佳實踐
     Day-06-Kubernetes_介紹
   - Kubernetes 的組件    
-      - Day-07-k8s基礎-Pod
-      - Day-08-k8s基礎-Deployment
-      - Day-09-k8s基礎-Service
-      - Day-10-ingress
-      - Day-08-k8s基礎-DaemonSet    
+      - day-07-Kubernetes_介紹-建立本地k8s
+      - Day-08-k8s基礎-Pod
+      - Day-09-k8s基礎-Deployment
+      - Day-10-k8s基礎-Service
+      - Day-11-ingress
+      - Day-12-ConfigMap
+      - Day-13-Secret
+      - Day-14-安全的將 Secret 儲存至 Git Repo
+      - WorkLoad 基礎小節
+      - Pod 
 - 環境配置
-    - Day-09-於 AWS 建置 Kubernetes (EKS)    
+    - Day-?-於 AWS 建置 Kubernetes (EKS)    
 - CI/CD
-    - Day-10-manifest Repo
-    - Day-11-建置 GitLab CI pipeline
-    - Day-12-GitLab CI `build Image`
-    - Day-13-GitLab CI `push Image`
-    - Day-14-GitLab CI `push Image`
+    - Day-?-manifest Repo
+    - Day-?-建置 GitLab CI pipeline
+- 監控
+  - ELK
+  - Prometheus
+  - Grafana
+- 高可用
+  - HPA
+  - Quarkus
 
