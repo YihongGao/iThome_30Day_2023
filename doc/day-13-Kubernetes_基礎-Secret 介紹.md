@@ -120,7 +120,7 @@ Kubernetes 在設計時，區分了 ConfigMap 與 Secret 這兩個組件，分�
 
 # 延伸問題 - 能透過 GitOps 管理 Secret 嗎?
 補充知識: 
-[GitOps](https://about.gitlab.com/topics/gitops/) 是實現 IaC(Infrastructure as Code)的方式，運用在 Kubernetes 生態時，能簡單理解為有一個 git repo，裡面存放了你部署在 Kubernetes 上所有資源的 yaml file。
+[GitOps](https://www.cncf.io/blog/2021/09/28/gitops-101-whats-it-all-about/) 是實現 IaC(Infrastructure as Code)的方式，運用在 Kubernetes 生態時，能簡單理解為有一個 git repo，裡面存放了你部署在 Kubernetes 上所有資源的 yaml file。
 
 但 Secret 的 yaml 中，數據欄位是 base64 編碼的，如果上傳至 git repo，能存取這個 repo 的使用者，都能還原並取得 Secret 中的資敏資訊，這造成更多洩漏的風險。
 
