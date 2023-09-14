@@ -19,7 +19,7 @@
       - Day-13-Secret
       - Day-14-安全的將 Secret 儲存至 Git Repo
       - WorkLoad 基礎小節
-      - Pod 
+      - Pod CPU/Memory / Liveness Readiness
 - 環境配置
     - Day-?-於 AWS 建置 Kubernetes (EKS)    
 - CI/CD
