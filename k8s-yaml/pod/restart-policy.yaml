@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restart-always-exit-0-pod
+spec:
+  restartPolicy: Always
+  containers:
+  - name: always-container
+    image: busybox
+    command: ["sh", "-c", "echo 'Container started'; sleep 5; echo 'exit 0(success)'; exit 0"]
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restart-always-exit-1-pod
+spec:
+  restartPolicy: Always
+  containers:
+  - name: on-failure-container
+    image: busybox
+    command: ["sh", "-c", "echo 'Container started'; sleep 5; echo 'Forcing an error'; exit 1"]
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restart-on-failure-exit-0-pod
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: on-failure-container
+    image: busybox
+    command: ["sh", "-c", "echo 'Container started'; sleep 5; echo 'exit 0(success)'; exit 0"]
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restart-on-failure-exit-1-pod
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: on-failure-container
+    image: busybox
+    command: ["sh", "-c", "echo 'Container started'; sleep 5; echo 'Forcing an error'; exit 1"]
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restart-never-exit-0-pod
+spec:
+  restartPolicy: Never
+  containers:
+  - name: on-failure-container
+    image: busybox
+    command: ["sh", "-c", "echo 'Container started'; sleep 5; echo 'exit 0(success)'; exit 0"]
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restart-never-exit-1-pod
+spec:
+  restartPolicy: Never
+  containers:
+  - name: on-failure-container
+    image: busybox
+    command: ["sh", "-c", "echo 'Container started'; sleep 5; echo 'Forcing an error'; exit 1"]
