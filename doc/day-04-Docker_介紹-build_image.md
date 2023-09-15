@@ -1,4 +1,4 @@
-# Day-04-Docker 介紹-建立自己的 Containar Image
+# Day-04-Docker 介紹-建立自己的 Container Image
 
 # 前言
 昨天我們介紹了怎麼使用 Docker Client 並使用他人建立的 Image 再本地部署服務，而今天我們會將一個 Java 的 API 服務打包成 Container Image，並推送到 Container Registry。
@@ -7,6 +7,10 @@
 1. 將 Java 原始碼 cloen 到本地端
     ```
     git clone https://github.com/YihongGao/iThome_30Day_2023.git
+
+    cd iThome_30Day_2023
+
+    git switch -c  D4
     ```
 
 2. 切換到 demo 專案下
@@ -14,24 +18,21 @@
     cd projects/demo
     ```
 3. 將 Java 原始碼編譯並打包成 JAR file
-> JAR file 是一種 Java 部署和分發的常用文件格式，通常就是一個服務或函式庫，再這裡 JAR file 的內容就是要打包近 Container Image 的 API 服務。
-- 選項一：使用 maven 指令打包
-    ```
-    ./mvnw clean package
-    ```
-    能在 target 目錄中看到編譯好的 JAR file(demo.jar)，這就是我們稍後要包進 Container 中的 jar。
-    ```
-    ls target/demo.jar
-    ```
-- 選項二：直接 copy 我預先編譯好的 jar 到 target 目錄 (本地環境沒有安裝 java 的人，能直接使用此方式)
-    ```
-    cp ./artifact/demo.jar ./target/demo.jar
-    ```
+> JAR file 是一種 Java 部署和分發的常用文件格式，通常就是一個服務或函式庫，再這裡 JAR file 的內容就是要打包近 Container Image 的 API 服務。    
+
+ - 使用 maven 指令打包
+ ```
+ ./mvnw clean package
+ ```
+ - 在 target 目錄中看到編譯好的 JAR file(demo.jar)，這就是我們稍後要包進 Container 中的 jar。
+ ```
+ ls target/demo.jar
+ ```
    
 # 建構 Container Image
 當要打包的服務(JAR)準備好之後，我們需要一個叫 Dockerfile 的檔案，來定義建構 Container Image 的過程。
 
-這邊直接看我預先寫好的 Dockerfile 內容，檔案就在 projects/demo 目錄下
+這邊直接看我預先寫好的 Dockerfile 內容，檔案就在 [projects/demo](https://github.com/YihongGao/iThome_30Day_2023/blob/D4/projects/demo/Dockerfile) 目錄下
 
 ```
 # 使用 OpenJDK 17 作為基本映像
@@ -129,17 +130,5 @@ curl localhost:8080
 
 這就達到了 **一致的環境**、**依賴性管理** 的好處，透過交付 Container 來部署服務，不需太擔心運行的環境差異。
 
-> 1. **一致的環境** ：容器確保應用程式在不同環境中運行一致，開發者可以在本地開發環境中進行測試，確保應用程式在生產環境中也能正常運行。
-> 2. **依賴性管理** ：容器打包了應用程式的所有依賴項，開發者無需擔心環境差異導致的依賴性問題，從而減少了開發和部署中的挑戰。
-
 最後也透過 `docker tag` 與 `docker push`，將 Image 推送到 Container Registry，讓遠端伺服器或其他人能透過 `docker pull` 取得該 image。
 > 注意：若你的 Container 不想給外人取得，DockerHub Repository 務必選擇 private
-
-    
-
-
-
-
-
- 
-

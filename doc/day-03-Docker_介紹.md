@@ -1,4 +1,4 @@
-# Day-03-Docker 介紹-如何使用 Containar Image
+# Day-03-Docker 介紹-如何使用 Container Image
 
 # 前言
 許多開發者都已經相當熟悉如何使用 Docker，所以我們就快速介紹 Docker 架構與 常用的 command 來運行服務 與 如何建立屬於你的 Container Image.
