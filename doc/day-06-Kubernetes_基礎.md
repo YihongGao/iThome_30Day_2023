@@ -13,7 +13,7 @@ Kubernetes，簡稱 K8s，是一個強大的開源容器管理平台，用於自
 - 容器編排：依據資源要求將容器運行於符合要求的伺服器，或 避免所有容器都運行在同一個伺服器，減少伺服器不可用的風險
     > 例如容器要求使用  2 GB 的 Memory，Kubernetes 會嘗試找到至少有 2 GB 可用的 Memory 的伺服器來運行該容器。
 - 自我修復：當容器崩潰時，將自動重啟該容器，直到容器準備好提供服務，才對外開放流量。甚至在伺服器失效時，能將運行於失效伺服器的容器移轉至其他可用伺服器並嘗試啟動。
-    > 運行於 Docker 的 container，若 container 內部的服務崩潰時，預設不會自動重啟，需人工處理。
+    > 運行於 Docker 的 container，若 container 內部的服務崩潰時，預設不會自動重啟，需人工處理，而 Kubernetes 能依照需求自動重啟。
 - 可擴展性：能透過手動或自動的方式來擴展或縮減你的服務，來應付大量的請求。
 - 服務發現 與 負載均衡：Kubernetes 提供透過 DNS Name 或 IP 的方式來訪問容器。
     > 當你的同一個服務部署了多個 Container instance 時，會希望有個穩定提供服務的方式(DNS/IP)，不會因為 instance 增加/減少而改變，且希望請求流量能平均分配
@@ -26,14 +26,14 @@ Kubernetes，簡稱 K8s，是一個強大的開源容器管理平台，用於自
 圖檔來源 [CNCF / How Kubernetes works](https://www.cncf.io/blog/2019/08/19/how-kubernetes-works/)
 
 Kubernetes 通常由多個伺服器組成，稱為 Kubernetes Cluster，而這些伺服器大致分為兩個類型
-- Master Node: 
+- Master Node 的職責: 
   - 控制台：Master Node 是 Kubernetes Cluster的大腦，負責整體控制和協調集群中的所有操作。它接收用戶和管理工具的指令，並確保集群中的所有工作都按照期望運行。
 
   - 決策中心：Master Node 包含各種控制器，這些控制器負責管理和維護應用程式的狀態。例如，它確保應用程式的副本數量正確，並根據需求進行擴展或縮減。
 
   - 資源調度：Master Node 的排程器（Scheduler）負責確定在哪個工作節點上運行容器，以確保最佳的資源利用率和性能。
     > 以上功能是由架構圖中的 Control plane 提供的，能大致認為運行 Control plane 伺服器為 Master Node
-- Worker Node:
+- Worker Node 的職責:
   - 容器執行：Worker Node 是實際運行容器的地方。它負責管理容器的生命週期，包括創建、啟動、停止和清理容器。
 
   - 資源提供者：Worker Node 提供計算和儲存資源，以運行容器。它確保容器具有足夠的資源（CPU、記憶體等）以正常運行。
