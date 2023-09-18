@@ -1,5 +1,5 @@
 # Day-06-Kubernetes 介紹
-
+![kubernetes icon](https://kubernetes.io/images/kubernetes-horizontal-color.png)
 # 前言
 前面已經學習了如何使用 Docker 建構你自己的 Container Image 與 運行 Container，今天我們將開始介紹 Kubernetes 已經他帶給我們什麼好處。
 
