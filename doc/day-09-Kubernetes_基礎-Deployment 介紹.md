@@ -1,4 +1,4 @@
-# Day-09-Kubernetes_介紹-Deployment 介紹
+# Day-09-Kubernetes_介紹-Deployment
 
 # 前言
 昨天我們使用 Pod 來建構服務，今天我們來介紹更強大的服務部署組件 Deployment。

@@ -1,4 +1,4 @@
-# Day-11-Kubernetes_介紹-Ingress 介紹
+# Day-11-Kubernetes_介紹-Ingress 
 
 # 前言
 昨天我們介紹了 Service，解決了 Pod 動態變動的問題，但 Service type `ClusterIP` 只能有內部服務(Pod) 能調用，提供外部訪問的 Service 只有 `NodePort` 或 `LoadBalancer`，但分別會造成 管理問題 或 成本問題。

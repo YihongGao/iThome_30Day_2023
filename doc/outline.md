@@ -18,8 +18,12 @@
       - Day-12-ConfigMap
       - Day-13-Secret
       - Day-14-安全的將 Secret 儲存至 Git Repo
+      - Day-15-Pod 延伸討論-1
+      - Day-16-Pod 延伸討論-2
+      - Day-17-Pod 延伸討論-2
+      - Day-18-Debug 方式
+      - Day-19-常用工具
       - WorkLoad 基礎小節
-      - Pod CPU/Memory / Liveness Readiness
 - 環境配置
     - Day-?-於 AWS 建置 Kubernetes (EKS)    
 - CI/CD
@@ -32,4 +36,6 @@
 - 高可用
   - HPA
   - Quarkus
+
+
 

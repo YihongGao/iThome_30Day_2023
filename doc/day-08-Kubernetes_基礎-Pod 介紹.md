@@ -1,4 +1,4 @@
-# Day-08-Kubernetes_介紹-Pod 介紹
+# Day-08-Kubernetes_介紹-Pod 
 
 # 前言
 昨天已經使用 `kind` 再本地環境建置了 Kubernetes 環境，並能使用 `kubectl` 對其進行操作，今天我們就來嘗試部署應用軟體上去。

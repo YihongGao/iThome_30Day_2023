@@ -1,4 +1,4 @@
-# Day-10-Kubernetes_介紹-Service 介紹
+# Day-10-Kubernetes_介紹-Service
 
 # 前言
 昨天我們使用 Deployment 來管理 Pod，但 Pod 隨時可能會被銷毀或創建(例: Rolling update 或 Pod crash)，Pod IP 隨著 Pod 銷毀時移除，創建時分配。
@@ -76,7 +76,7 @@ endpoints/my-deployment   10.244.1.41:80,10.244.1.42:80,10.244.1.43:80   112s
   > 因為 IP 是隨機分配的，通常我們也不會使用 IP 來連線
   - DNS Name: `curl my-deployment.default.svc.cluster.local:8080`
   > 1. DNS Name 為建議的存取方式，他是不可變的
-  > 2. DNS Name 的規則是 ${service name}.${namespace}.svc.cluster.local
+  > 2. DNS Name 的規則是 \${servicename}.\${namespace}.svc.cluster.local
 - endpoints: service 產生後，會關聯一個 endpoints，能從 endpoints 查到此 service 會轉發到哪些位址
   > 通常我們不關注 endpoints，只有想檢查 service selector 是否有選到正確的 Pod 時才會檢查，能透過 `kubectl get endpoints,pod -o wide`，比對 endpoints/ENDPOINTS 的 IP 是否與預期的 pod/IP 一致 
 
