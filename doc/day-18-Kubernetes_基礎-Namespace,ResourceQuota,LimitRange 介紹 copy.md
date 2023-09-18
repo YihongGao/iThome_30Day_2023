@@ -1,4 +1,4 @@
-# Day-17-Kubernetes_介紹-Namespace, Resource Quotas 與 Limit Range
+# Day-18-Kubernetes_介紹-Namespace, Resource Quotas 與 Limit Range
 
 # 前言
 前幾天介紹了幾個 Pod 常用的功能，其中包含了 Resource 配置，今天會介紹 Namespace, ResourceQuota, LimitRange，偏 Kubernetes 維護團隊會使用的功能，主要用來作為 Resource 配置的管理，雖然主要是管理者在使用的功能，不過開發者若知道有這些功能，當遇到 Resource 使用問題時，也能比較容易意識到可能是這個配置設定上，需要找維護團隊溝通調整。
