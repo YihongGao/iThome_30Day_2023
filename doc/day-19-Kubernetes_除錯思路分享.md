@@ -187,7 +187,7 @@ $ curl localhost:${port-number}
     ```
     若調用不到，請確認 service yaml 中的 `ports` 是否有誤
 
-#### 檢查 Ingress 是否正常
+#### **檢查 Ingress 是否正常**
 1. 透過外部系統 或 Debug Container，對 Ingress hosts 進行調用
     ```
     $ curl hello.ingress.com

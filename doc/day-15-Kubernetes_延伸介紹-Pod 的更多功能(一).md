@@ -11,17 +11,17 @@
 透過這些 Kubernetes 組件，我們已經能部署一套**多副本**且有**基本自我修復能力**的應用程序，且能進行**負載均衡**分散流量與能**對外開放存取**並進行路由管理。
 
 這幾天來深入一點了解 Pod 的生命週期 與 更多功能與特性，來讓我們的服務更強健。
-- Pod 的生命週期 和 重啟策略(RestartPlicy)
+- Pod 的生命週期 和 重啟策略(RestartPolicy)
 - 資源(CPU/Memory)管理
 - QoS (Quality of Service)
 - Liveness, Readiness and Startup Probes
 - 優雅關閉 (graceful shutdown)
 
 
-# Pod 的生命週期 和 重啟策略(RestartPlicy)
+# Pod 的生命週期 和 重啟策略(RestartPolicy)
 Kubernetes 中的 Pod 是容器化應用程序的基本部署單位，具有一個非常重要且獨特的特性：它是一個容器的臨時載體，可以隨時被替換，這種特性使得 Pod 成為支持高可用性和故障恢復的強大工具。
 
-透過瞭解 Pod 的生命週期，能幫助我們去配置適合的 重啟策略(RestartPlicy)
+透過瞭解 Pod 的生命週期，能幫助我們去配置適合的 重啟策略(RestartPolicy)
 
 ## Pod 的生命週期 
 隨著 Pod 被創建，會經歷以下階段
@@ -33,20 +33,20 @@ Kubernetes 中的 Pod 是容器化應用程序的基本部署單位，具有一�
 | Failed | Pod 中的所有容器都已終止，並且至少有一個容器是因為失敗終止。也就是說，容器以非 0 狀態退出或者被系統終止。 |
 | Unknown | 因為某些原因無法取得 Pod 的狀態。這種情況通常是因為與 Pod 所在主機通信失敗。 |
 
-## 重啟策略(RestartPlicy)
+## 重啟策略(RestartPolicy)
 假設我們運行的是 Web 服務，會預期服務需要保持 `Running` 狀態，隨時都能處理用戶端的請求，但若受到海量請求導致或其他原因導致 Web 服務崩潰，此時 Pod 狀態會進入 `Failed` 狀態。此時我們通常會希望服務能自動重啟，減少服務崩潰造成的影響時間。
 
-利用 重啟策略(RestartPlicy) 我們能指定 Pod 在什麼情況下要重啟
+利用 重啟策略(RestartPolicy) 我們能指定 Pod 在什麼情況下要重啟
 - `Always`（始終）： 這是默認的重啟策略。當容器終止時，Kubernetes 將始終嘗試重新啟動容器，無論是因為錯誤、退出碼還是其他原因。這對於應用程序要求高可用性的情況很有用。
 > 透過 Deployment 管理 Pod 時，只能使用 `Always`
 - `OnFailure`（僅在失敗時）： 在這種策略下，當容器因錯誤或非零退出碼而終止時，Kubernetes 才會嘗試重新啟動容器。這可用於應對應用程序中的臨時錯誤或容器崩潰的情況。
 
 - `Never`（永不）： 在這種策略下，Kubernetes 不會嘗試重新啟動容器，無論容器如何終止。這通常用於一次性工作或容器不應自動重啟的情況。
 
-## 測試 重啟策略(RestartPlicy)
-我們來測試一下不同 重啟策略(RestartPlicy) 遇到容器終止時的行為
+## 測試 重啟策略(RestartPolicy)
+我們來測試一下不同 重啟策略(RestartPolicy) 遇到容器終止時的行為
 
-部署各種 RestartPlicy 的 Pod
+部署各種 RestartPolicy 的 Pod
 ```
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -128,7 +128,7 @@ EOF
 ```
 
 執行後會產生 6 個 pod
-| 名稱                          | 重啟策略(RestartPlicy) | 容器行為                 | 預期行為  |
+| 名稱                          | 重啟策略(RestartPolicy) | 容器行為                 | 預期行為  |
 | ----------------------------- | ----------------------- | ------------------------ | ---------- |
 | restart-always-exit-0-pod     | Always                  | 返回成功代碼 (exit 0)     | 重啟       |
 | restart-always-exit-1-pod     | Always                  | 返回失敗代碼 (exit 1)     | 重啟       |
@@ -148,7 +148,7 @@ restart-on-failure-exit-0-pod      0/1     Completed          0              8m2
 restart-on-failure-exit-1-pod      0/1     CrashLoopBackOff   6 (107s ago)   8m27s
 ```
 
-每次 Pod 重啟時，該 Pod 的 `RESTARTS` 都會遞增 1，我們能從這看出 重啟策略(RestartPlicy) 
+每次 Pod 重啟時，該 Pod 的 `RESTARTS` 都會遞增 1，我們能從這看出 重啟策略(RestartPolicy) 
 > 每次容器退出時時，都會延遲幾秒後再執行重啟，延遲時間是依據指數退避的方式計算(10秒，20秒，40秒…)，最長為 5 分鐘。若 Pod 運行超過 10 分鐘未出現問題，則會重置該延遲時間。
 
 以下是我簡單的選擇方式
@@ -226,7 +226,7 @@ kubectl get apiservices | grep metrics
 
 ### 測試
 
-#### 符合指定 memory 請求與限制
+#### **符合指定 memory 請求與限制**
 container 會使用 符合配置範圍中的(100Mi < 使用量 < 200Mi) 的 Memory
 ```
 kubectl create ns mem-example
@@ -262,7 +262,7 @@ NAME          CPU(cores)   MEMORY(bytes)
 memory-demo   84m          162Mi     
 ```
 
-#### 使用超過 memory 限制
+#### **使用超過 memory 限制**
 container 會使用 250MB Memory，超過 limit 配置的100Mi
 ```
 kubectl create ns mem-example
@@ -297,7 +297,7 @@ NAME            READY   STATUS      RESTARTS   AGE
 memory-demo-2   0/1     OOMKilled   0          4s
 ```
 
-#### 使用超過 cpu 限制
+#### **使用超過 cpu 限制**
 ```
 kubectl create ns cpu-example
 
@@ -341,7 +341,7 @@ cpu-demo   1000m        9Mi
 所以當 Memory 使用超過 limit 時，只能透過強制終止才能限制 Memory 使用量。
 
 # 總結
-今天介紹了 **Pod 的生命週期 和 重啟策略(RestartPlicy)**
+今天介紹了 **Pod 的生命週期 和 重啟策略(RestartPolicy)**
 與 **資源(CPU/Memory)管理**，都是能對服務穩定性的功能項，希望能幫助讀者配置出一個穩固的服務。
 
 明天會繼續介紹

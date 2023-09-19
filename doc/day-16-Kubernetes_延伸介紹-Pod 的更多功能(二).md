@@ -1,7 +1,7 @@
 # Day-16-Kubernetes_延伸介紹-Pod 的更多功能(二)
 
 # 前言
-昨天介紹了 **Pod 的生命週期 和 重啟策略(RestartPlicy)** 與 **資源(CPU/Memory)管理**，今天我們來介紹其他 Pod 的功能與特型
+昨天介紹了 **Pod 的生命週期 和 重啟策略(RestartPolicy)** 與 **資源(CPU/Memory)管理**，今天我們來介紹其他 Pod 的功能與特型
 - QoS (Quality of Service)
 - 存活探針(Liveness), 就緒探針(Readiness) and 啟動探針(Startup Probes)
 
@@ -46,7 +46,7 @@ kubectl get pod ${pod-name} -o=jsonpath='{.status.qosClass}'
 # 存活探針(Liveness), 就緒探針(Readiness) and 啟動探針(Startup Probes)
 
 ## 存活探針 Liveness Probes
-先前介紹了 **重啟策略(RestartPlicy)** 會在容器崩潰時自動重啟 Pod，來嘗試恢復服務，但有情境是容器的內部應用程序已經不可用，但容器並不會崩潰，對終端用戶來說，仍然無法正常使用該系統。
+先前介紹了 **重啟策略(RestartPolicy)** 會在容器崩潰時自動重啟 Pod，來嘗試恢復服務，但有情境是容器的內部應用程序已經不可用，但容器並不會崩潰，對終端用戶來說，仍然無法正常使用該系統。
 Liveness Probes 提供了一個檢測應用程序是否可用的方式，能透過 http, tcp, gRPC 甚至 command 的方式來檢測。
 
 我們依此 Pod yaml 為例子，來看一下 存活探針 的配置項
