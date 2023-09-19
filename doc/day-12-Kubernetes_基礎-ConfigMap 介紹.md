@@ -115,10 +115,10 @@ EOF
 kubectl port-forward deployments/demo-deployment 8080:8080
 ```
 - 測試 localhost:8080，預期結果為 `Hello, ConfigMap` 而不是預設得 `Hello, welcome to use the container.`
-![hello-configMap](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230911/截圖-2023-09-12-上午12.11.51.11trm2d6ti4.webp)
+![hello-configMap](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230911/截圖-2023-09-12-上午12.11.51.11trm2d6ti4.webp)
 
 - 測試 localhost:8080/env，預期結果為 `kind` 而不是預設得 `local`
-![hello-configMap](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230911/截圖-2023-09-12-上午12.11.03.2m6tksf94z40.webp)
+![hello-configMap](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230911/截圖-2023-09-12-上午12.11.03.2m6tksf94z40.webp)
 
 另外兩種使用方式
 - 將 ConfigMap 掛載(mount)到 Pod 中，成為一個檔案，能參考[官方用例](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#add-configmap-data-to-a-volume)

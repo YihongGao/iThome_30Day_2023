@@ -61,7 +61,7 @@ Note:
     kind get clusters
     ```
     執行結果
-    ![kind create cluster](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-05-上午2.34.29.9lq21h6p0u8.webp)
+    ![kind create cluster](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-05-上午2.34.29.9lq21h6p0u8.webp)
    預設為會使用 Docker container 建立一個 kubernetes node，該 node 同時為 master node(control-plane) 與 worker node。
 3. 配置 `kubectl` 要操作哪個 kubernetes 
     >`kubectl` 是 Client 端組件，用來操作本地或遠端的 Kuberntes，所以需要指定現在你要操作的 Kuberntes。       
@@ -75,8 +75,8 @@ Note:
     kubectl cluster-info --context kind-my-cluster
     ```
     執行結果
-    ![get-contexts](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-05-上午2.52.49-3.1zuriu1dkoyo.webp)
-    ![set-context](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-05-上午2.57.38.5taa9tdepu80.webp)
+    ![get-contexts](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-05-上午2.52.49-3.1zuriu1dkoyo.webp)
+    ![set-context](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-05-上午2.57.38.5taa9tdepu80.webp)
     
 4. Cluster 已經建立完成，讓我們來部署個服務，測試一下 Cluster 是否可用
     ```
@@ -87,7 +87,7 @@ Note:
     kubectl patch svc podinfo -p '{"spec": {"type": "NodePort", "ports": [{"port": 9898, "targetPort": 9898, "nodePort": 30000}]}}'
     ```
     使用瀏覽器訪問 `localhost:30000`
-    ![podman](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-05-上午3.37.13.25123q1r5li8.webp)
+    ![podman](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-05-上午3.37.13.25123q1r5li8.webp)
 
     出現以上畫面代表你已經成功部署了一個服務在本地端的 Kubernetes cluster。
 

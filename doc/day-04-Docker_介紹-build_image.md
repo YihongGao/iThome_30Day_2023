@@ -83,7 +83,7 @@ EXPOSE 8080
     > 指令中 `-t demo-image:v1` 代表我希望該 Container Image 的名稱為 demo-image，且 tag 為 v1。當未來這服務有更新時，能使用同一個名稱，調整 tag 為 v2，方便區分不同版本的 Container Image。
 
     運行結果:
-    ![docker-build](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-03-上午3.02.51.32r4azzzea20.webp)
+    ![docker-build](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-03-上午3.02.51.32r4azzzea20.webp)
 
 # 測試剛建構的 Container Image
 上傳 Container Registry 之前，先在本地運行做個簡單的測試。
@@ -95,14 +95,14 @@ docker run -p 8080:8080 demo-image:v1
 curl localhost:8080
 ```
 運行結果
-![run_and_curl](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-03-上午3.14.04.52mk1hg58wc0.webp)
+![run_and_curl](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-03-上午3.14.04.52mk1hg58wc0.webp)
 收到 API 服務返回 "Hello, welcome to use the container." 的訊息，代表建構成功。
 
 # 上傳到 Container Registry
 這邊為了讀者自行實作方便，範例為上傳至免費的 DockerHub
 
 1. 註冊並登入 DockerHub 後，點擊 Repositories / Create repository
-   ![Create repository](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-03-上午3.21.05.5h8n51bk9w8.webp)
+   ![Create repository](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-03-上午3.21.05.5h8n51bk9w8.webp)
 2. 替你的 repository 取名，並點 Create
    > 此範例我用 `demo-image` 當 repository 名稱
 3. 使用 Docker Client 登入 docker 帳戶
@@ -118,9 +118,9 @@ curl localhost:8080
     docker push ${你的 docker 帳號}/${你的repository名稱}:v1
     ```
     運行結果：
-    ![docker-push](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-03-上午3.37.27.4qb68l128960.webp)
+    ![docker-push](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-03-上午3.37.27.4qb68l128960.webp)
     上傳完之後，就能在 DockerHub 上看到該 Container Image 了
-    ![dockerhub-ls-v1](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-03-上午3.37.06.20dv71nmvzc0.webp)
+    ![dockerhub-ls-v1](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-03-上午3.37.06.20dv71nmvzc0.webp)
 
 
 # 總結

@@ -28,7 +28,7 @@ kubectl create namespace demo
 kubectl get namespace
 ```
 返回結果
-![create-namespace](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230915/截圖-2023-09-18-下午6.37.06.2qnpmh2ay5a0.webp)
+![create-namespace](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230915/截圖-2023-09-18-下午6.37.06.2qnpmh2ay5a0.webp)
 
 大部分 `kubectl` 操作都能加上 `-n` 或 `--namespace` 參數來指定 namespace
 ```

@@ -96,7 +96,7 @@ EOF
 kubectl port-forward deployments/demo-deployment 8080:8080
 ```
 測試 localhost:8080/token，預期結果為 `dummy token from secret` 而不是預設得 `local token.`
-![test-secret](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230911/截圖-2023-09-12-上午2.50.54.neo6foakvnk.webp)
+![test-secret](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230911/截圖-2023-09-12-上午2.50.54.neo6foakvnk.webp)
 
 
 # 如何保護 Secret 中的資敏資訊

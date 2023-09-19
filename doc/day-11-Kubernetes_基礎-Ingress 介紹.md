@@ -162,7 +162,7 @@ hello   <none>   hello.ingress.com   localhost   80      79m
 配置完之後，在本地端連線至 `hello.ingress.com` 的網域時，都會解析為本地位址(127.0.0.1)，讓我們能連向本地端的 Kubernetes
 
 透過瀏覽器連線至 `hello.ingress.com`，出現以下畫面代表成功
-![hello.ingress.com](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230910/截圖-2023-09-10-上午2.07.50.32cqs1j9lu20.webp)
+![hello.ingress.com](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230910/截圖-2023-09-10-上午2.07.50.32cqs1j9lu20.webp)
 
 # 總結
 我們今天學會了如何使用 Ingress 來實現對外曝露服務的需求，補足 Service 在這需求上的短板，值得補充的是 Ingress 與 Service 並不互斥，他們專注在各自的職責上，並能互補。

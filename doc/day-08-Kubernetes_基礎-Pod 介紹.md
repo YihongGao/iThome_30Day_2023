@@ -180,7 +180,9 @@ Forwarding from 127.0.0.1:8080 -> 80
 Forwarding from [::1]:8080 -> 80
 Handling connection for 8080
 ```
-![port-forard](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-06-下午3.45.14.21d4773aejts.webp)
+![port-forard](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230903/截圖-2023-09-06-下午3.45.14.21d4773aejts.webp)
+
+
 
 > Note: 以上兩個方式的使用時機，主要為 **測試** 或 **Debug**，**也不是拿來提供外部系統之間調用的，也不建議在生產環境使用**。
 > 後面會介紹 Service 元件，該元件能穩定的入口，提供讓其他 Pod 的方式，並支援負載均衡

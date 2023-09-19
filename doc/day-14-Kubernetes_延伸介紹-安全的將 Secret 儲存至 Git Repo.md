@@ -120,7 +120,7 @@ kubectl get secret sealed-secret-example
 kubectl get secret sealed-secret-example -o jsonpath="{.data['APP\.PASSWORD']}" | base64 --decode
 ```
 
-![decode-secret](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230913/截圖-2023-09-13-上午8.03.42.2doeghu7zlus.webp)
+![decode-secret](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230913/截圖-2023-09-13-上午8.03.42.2doeghu7zlus.webp)
 
 # 總結
 今天簡單介紹了實施 GitOps 的好處 與 如何用 [sealed-secrets](https://github.com/bitnami-labs/sealed-secrets) 加密Secret manifast，使其可被上傳至 Git Repo，不必擔心資料外洩。

@@ -26,21 +26,21 @@
 > 此範例 Docker Daemon 與 Docker Client 都安裝在本地環境，所以本地環境既是 Client 也是 Docker Host。
 
 1. 至 [Docker Registry](https://hub.docker.com/) 搜尋想要的服務，此處已 [Nginx](https://hub.docker.com/_/nginx) 為例，能查到有許多不同版本的 Container Image。
-![Nginx DockerHub](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午2.51.31.6vdw01t8rqw0.webp)
+![Nginx DockerHub](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午2.51.31.6vdw01t8rqw0.webp)
 1. 我們選擇最新(latest)的版本，並該版本的 Container Image pull 到 Docker Host (本地)   
    執行：
     ```
     docker pull nginx:latest
     ``` 
     輸出結果：
-    ![docker-pull](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午2.59.57.aqvqqukw1k0.webp)
+    ![docker-pull](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午2.59.57.aqvqqukw1k0.webp)
 2. 接下來檢查是否 Container Image 是否 pull 成功    
    執行：
     ```
     docker image ls
     ```
     輸出結果：
-    ![docker-image-ls](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.06.46.12m8a0ll3z2o.webp)
+    ![docker-image-ls](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.06.46.12m8a0ll3z2o.webp)
     `docker image ls` 能查出 Docker host 上所有的 Container Image，因為第一步我們執行了 `docker pull nginx:latest`，所以能看到有一個 REPOSITORY 為 nginx，TAG 為 latest 的 Container Image 在清單內，代表 pull 成功了。
 3. 使用 nginx:latest 這個 Container Image 創建一個 Container instance，且希望能使用 localhost:8080 連到 nginx 服務(預設為 80 port)    
     執行：
@@ -52,14 +52,14 @@
      `-p 8080:80` ：將 Docker Host 的 8080 port 與 container 中的 80 port 綁定，所以使用 localhost:8080 可訪問到該 container 中的 80 port 服務
 
     輸出結果：
-    ![docker-run](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.32.17.738kuhqfzi40.webp)
+    ![docker-run](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.32.17.738kuhqfzi40.webp)
     因為使用了 `-d` 參數，所以該 command 會返回一個唯一的 Container Id
 4. 來檢查一下， Container 的狀態 與 runtime Log
     ```
     docker ps
     ```
     輸出結果：
-    ![docker-ps](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.36.20-1.1a0kpb1ruerk.webp)
+    ![docker-ps](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.36.20-1.1a0kpb1ruerk.webp)
     能看到有一個 Container Instance 被創建了，且STATUS為 Up。
     我們來檢查進一步看運行日誌
     ```
@@ -68,16 +68,16 @@
     > Container Id 能從 `docker ps` 或 `docker run -d` 返回的值取得。
 
     輸出結果：
-    ![docker-logs](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.41.04.wlt0nzx3lts.webp)
+    ![docker-logs](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.41.04.wlt0nzx3lts.webp)
 
     我們從 `docker ps` 確認了 STATUS 為 UP，且將本地 8080 port 與 container 80 port 綁定，之後再透過 `docker logs` 檢查運行日誌啟動正常，無 ERROR log，基本上這個 Container 應該正常運作了。
 5. 透過瀏覽器使用 `localhosl:8080` 來連到 nginx 服務
-    ![nginx-index](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.26.12.4ljjthj3ng60.webp)
+    ![nginx-index](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.26.12.4ljjthj3ng60.webp)
 6. 當我們不需要使用該 Container 時，能將其停止或刪除
     ```
     docker stop ${Container Id}
     ```
-    ![docker-stop](https://cdn.staticaly.com/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.57.50.4e3fl882k8o0.webp)
+    ![docker-stop](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230902/截圖-2023-09-02-上午3.57.50.4e3fl882k8o0.webp)
     能看到執行 `docker stop` 之後，透過 `docker ps -a` 查詢該 Container 狀態為 Exited，代表已經停止運行。
     這時候能重新啟動 或 將其完全刪除。
     ```
