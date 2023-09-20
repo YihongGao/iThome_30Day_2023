@@ -188,6 +188,9 @@ kubectl krew install explore
 kubectl explore --help
 ```
 
+# 總結
+今天回顧了許多核心組件，已經能建構自己的服務並提供給外部存取，接下來幾天會開始在使用 AWS EKS 建置 kubernetes 環境，並進行 CI/CD 與 監控等介紹。
+
 #### **Demo**
 ![kubectl explore](https://github.com/keisku/kubectl-explore/raw/main/demo.gif)
 
