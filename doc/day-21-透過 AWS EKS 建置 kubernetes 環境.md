@@ -140,7 +140,7 @@ kube-system   kube-proxy-f59d6           1/1     Running   0          3m35s
 # 總結
 今天我們透過了 eksctl 建立了一個 EKS cluster，並能從本地 kubectl 操作該 cluster，後續的介紹會繼續使用 EKS 環境來操作。
 
-# 刪除 EKS cluster
+# 清理環境 - 刪除 EKS cluster
 EKS 使用期間會有費用產生，讀者可使用以下指令刪除 EKS 環境避免持續產生費用
 ```
 eksctl delete cluster ithome-demo
