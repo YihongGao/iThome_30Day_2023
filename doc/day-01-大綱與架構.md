@@ -29,7 +29,7 @@ P.S. 本文不涉及如何撰寫分散式應用程式或高併發系統的主題
   - 其他優化技術或工具
 
 預期最終完成的環境，如下圖
-![T](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230913/架構圖.5holmyq61hg0.webp)
+![architecture](https://cdn.jsdelivr.net/gh/YihongGao/picx-images-hosting@master/20230913/架構圖.5holmyq61hg0.webp)
 
 # 後記
 這次分享主要是想整理一下平時使用的技術，一邊讓這些知識更加普及，希望能取之於社群，貢獻回社群。
