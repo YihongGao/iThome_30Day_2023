@@ -8,7 +8,7 @@
 ![Ingress](https://miro.medium.com/v2/resize:fit:720/format:webp/1*KIVa4hUVZxg-8Ncabo8pdg.png)
 圖檔來源 [Sandeep Dinesh/Kubernetes NodePort vs LoadBalancer vs Ingress? When should I use what?](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0)
 
-Ingress 能提供對外統一的訪問位址，來將流量轉發給 Service，轉發的規則可以依據 HTTP/ HTTPS request 的 `host` 或 `URL path`。
+Ingress 能提供對外統一的訪問位址，來將流量轉發給 Service，轉發的規則可以依據 HTTP/ HTTPS request 的 `host` 或 `URL path` 來配置。
 
 以上圖為例，Ingress 收到 request 時，轉發規則如下
   - 若 request host 為 `foo.mydomain.com`，會將 request 轉發給 __左邊__ 的 Service，Service 負責進行負載均衡並將 request 轉發給 Pod。
@@ -18,15 +18,18 @@ Ingress 能提供對外統一的訪問位址，來將流量轉發給 Service，�
 這些 Service 可以是任意 tpye，但通常最好管理且無額外成本的就是 `ClusterIP`，也就避免 `NodePort` 難以管理 與 使用大量 `LoadBalancer` 成本昂貴的問題。
 
 # 前置作業
-Igress 是屬於 Kubernetes 中的高階抽象組件，他定義了路由轉發的規則，但需要自行安裝實現路由轉發的組件，我們稱為 [Ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)，你可以依據需求或組織熟悉的組件來選擇。
+Ingress 是屬於 Kubernetes 中的高階抽象組件，他定義了路由轉發的規則，但需要自行安裝實現路由轉發的組件，我們稱為 [Ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)，你可以依據需求或組織熟悉的組件來選擇。
+
+今天我們使用目前主流之一的 [NGINX Ingress Controller](https://docs.nginx.com/nginx-ingress-controller/) 來介紹
 
 ## 安裝 Ingress controller
-這邊我們安裝由 Nginx 實現的 Ingress controller
+安裝 [NGINX Ingress Controller](https://docs.nginx.com/nginx-ingress-controller/)
 ```
 # 查 worker node name
 kubectl get node
 
-# 替 worker node 打上 ingress-ready: "true" 的 label, 讓 controller pod 能被調度
+# 重要! 
+# 要替 worker node 打上 ingress-ready: "true" 的 label, 讓 controller pod 能被調度
 kubectl label nodes ${you workder node name}
 
 # 安裝官方提供給 kind 環境安裝的 nginx ingress controller yaml

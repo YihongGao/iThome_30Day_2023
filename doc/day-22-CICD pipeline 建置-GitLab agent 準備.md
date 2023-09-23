@@ -15,8 +15,8 @@
 # 實作大綱
 接下來會分為幾個階段來完成這套流程
 - 安裝 GitLab agent
-- 配置 `Manifest Repo`
-- 撰寫 CI/CD pipeline script
+- 配置 `Manifest Repo` 與 `gitlab-ci.yml`
+- 配置 `Application Repo` 與 `gitlab-ci.yml`
 
 # 安裝 GitLab agent
 
@@ -94,13 +94,13 @@
     若能看到運行了兩個 GitLab Agent 的 Pod 在 EKS Cluster 中，就代表已經**安裝成功**了
 
 ## 測試
-1. 我們在專案中根目錄建立一個 `gitlab-ci.yml`，並填入以下內容
-    ```
+1. 我們在專案中根目錄建立一個 `.gitlab-ci.yml`，並填入以下內容
+    ```yml
     deploy:
-    image:
+      image:
         name: bitnami/kubectl:latest
         entrypoint: ['']
-    script:
+      script:
         - kubectl config get-contexts
         - kubectl config use-context <path/to/group/subgroup>:<agent-name>
         - kubectl get pods
@@ -129,7 +129,7 @@
 # 總結
 今天，我們成功在 EKS Cluster 中安裝了 GitLab Agent，這樣我們就不必在 GitLab 系統中直接儲存 kubeconfig。現在，我們可以使用 GitLab CI 來呼叫 GitLab Agent，啟動 GitLab Runner，然後執行 pipeline script（比如 kubectl get pods）。這表示 GitLab 和 EKS Cluster 之間的通訊是順暢的。
 
-明天，我們將開始實作 gitlab-ci.yml，以實現自動部署 YAML 到 EKS Cluster。
+明天，我們將開始實作 `.gitlab-ci.yml`，以實現自動部署 YAML 到 EKS Cluster。
 
 [GitOps]: https://about.gitlab.com/topics/gitops/
 
