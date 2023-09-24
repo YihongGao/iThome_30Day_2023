@@ -12,6 +12,8 @@
 
 - `Manifest Repo`：儲存所有 Kubernetes 組件的 manifest file(yaml)。要異動 Kubernetes 時，需調整此 Repo 中的檔案後，觸發該 CD pipeline 透過 `kubectl` deploy 至 Kubernetes。
 
+> "Application Repo 與 Manifest Repo 並不是專有名詞，只是筆者習慣的稱呼"
+
 # 實作大綱
 接下來會分為幾個階段來完成這套流程
 - 安裝 GitLab agent

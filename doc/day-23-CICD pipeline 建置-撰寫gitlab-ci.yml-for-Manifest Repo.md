@@ -1,4 +1,4 @@
-# Day-23-CI/CD pipeline 建置-撰寫gitlab-ci.yml
+# Day-23-CI/CD pipeline 建置-撰寫gitlab-ci.yml - for Manifest Repo
 
 # 前言
 昨天建置 `Manifest Repo`，且將 GitLab agent 安裝於 EKS Cluster 中，並測試 GitLab runner 能透過 `kubectl` 操作 EKS Cluster了。
@@ -20,7 +20,6 @@
       └─ apps（應用程序）
           └─ <service name>
               └─ YAML 檔案
-
 ```
 
 - `kubernetes_config`: 頂層目錄，用來明確標示目錄下的內容是什麼。
@@ -143,7 +142,7 @@ deploy-apps:
   -  `deploy-infra`: 負責將 `infra` 目錄的 yaml，透過 `kubectl apply` 來部署
   -  `deploy-apps`: 負責將 `apps` 目錄的 yaml，透過 `kubectl apply` 來部署
 
-- `stage`: 定義每個 Job 的執行順序，依此例會先執行 `deploy-infra` 之後才執行 `deploy-apps`
+- `stages`: 定義每個 Job 的執行順序，依此例會先執行 `deploy-infra` 之後才執行 `deploy-apps`
 
 我們細看 job 中的屬性，以 `deploy-infra` 為例，包含以下屬性
 - `stage`: 定義一個唯一的名稱，讓 `stages` 定義順序時使用
