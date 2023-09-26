@@ -1,4 +1,4 @@
-# Day-23-CI/CD pipeline 建置-撰寫gitlab-ci.yml-for-Application Repo
+# Day-24-CI/CD pipeline 建置-撰寫gitlab-ci.yml-for-Application Repo
 
 # 前言
 昨天將 `Manifest Repo` 建置好了，並能將 `Manifest Repo` 中的 yaml 透過 `kubectl apply` 部署到 EKS cluster。
@@ -206,6 +206,9 @@ compile:
   artifacts:
     paths:
       - target/*.jar
+  only:
+    - main
+    - develop
 
 build:
   stage: build
@@ -220,7 +223,9 @@ build:
     - docker push $CI_IMAGE
   dependencies:
     - compile
-
+  only:
+    - main
+    - develop
 
 push-to-ecr:
   stage: push-to-ecr
@@ -239,6 +244,9 @@ push-to-ecr:
     - docker push $ECR_CI_IMAGE
   dependencies:
     - build
+  only:
+    - main
+    - develop
 ```
 
 這個 `gitlab-ci.yml` 定義了以下內容
@@ -256,7 +264,8 @@ push-to-ecr:
   - `script`: 執行自定義語法，這裡用來執行編譯指令
   - `artifacts.paths`: 將編譯出來的 jar 保存下來供其他 job 使用
   > `build` stage 需要將 jar 放入 image
-
+  - `only`: 指定分支 commit/push 時才觸發 pipeline
+  
 - `build`
   - `stage`: 定義一個唯一的名稱，讓 `stages` 定義順序時使用
   - `image`: 因此作業依賴 docker cli，故使用 `docker:24.0.6` 來運行
@@ -269,6 +278,7 @@ push-to-ecr:
     > 登入 Gitlab container registry 的授權方式，能參考 [官方文檔](https://docs.gitlab.com/ee/user/packages/container_registry/authenticate_with_container_registry.html#use-gitlab-cicd-to-authenticate)
   - `script`: 執行 `docker build` 並將 image push 到 GitLab container registry
   - `dependencies`: 定義此 job 依賴 `compile` stage
+  - `only`: 指定分支 commit/push 時才觸發 pipeline
 
 - `push-to-ecr`
   - `stage`: 定義一個唯一的名稱，讓 `stages` 定義順序時使用
@@ -289,6 +299,7 @@ push-to-ecr:
     - 執行 `docker tag` 將 Image 改為 ECR 的位址
     - 執行 `docker push` 將 Image 推上 ECR
   - `dependencies`: 定義此 job 依賴 `build` stage
+  - `only`: 指定分支 commit/push 時才觸發 pipeline
 
 # 測試
 當有 commit 被 push 上 GitLab 後，能到該 Repo 左側選單/Build/Pipeline
