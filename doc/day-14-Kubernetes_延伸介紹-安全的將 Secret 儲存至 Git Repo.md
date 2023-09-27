@@ -50,23 +50,23 @@ Sealed Secrets 是一個開源的 Kubernetes 工具，用於安全地管理和�
     
 ## 安裝
 1. 安裝 Sealed Secrets Controller 
-```
+```shell
 kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.23.1/controller.yaml -n kube-system
 ```
 > 最新的安裝方式與版本能參閱[官方文檔](https://github.com/bitnami-labs/sealed-secrets#installation)
 2. 安裝 kubeseal CLI
-```
+```shell
 brew install kubeseal
 ```
 > 其他安裝方式參考[官方文檔]([kubeseal](https://github.com/bitnami-labs/sealed-secrets#kubeseal))
 
 ## 使用方式
 1. 先產生我們要加密的 Secret
-```
+```shell
 kubectl create secret generic sealed-secret-example --dry-run=client -o yaml --from-literal=APP.PASSWORD="my password" > sealed-secret-example.yaml
 ```
 sealed-secret-example.yaml 內容
-```
+```yaml
 apiVersion: v1
 data:
   APP.PASSWORD: bXkgcGFzc3dvcmQ=
@@ -78,12 +78,12 @@ metadata:
 > 注意：sealed-secret-example.yaml 中的數據仍是 Base64 編碼的，不可分享或上傳至 Git repo。
 
 2. 使用 kubeseal 將 sealed-secret-example.yaml 數據加密並產生 Sealed Secret CRD 的 yaml (sealed-secret-CRD.yaml)
-```
+```shell
 kubeseal -o yaml < sealed-secret-example.yaml > sealed-secret-CRD.yaml
 ```
 
 sealed-secret-CRD.yaml 內容
-```
+```yaml
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -102,11 +102,11 @@ spec:
 > sealed-secret-CRD.yaml 中的數據是加密過後的，只要 Kubernetes 中的 private key 沒有外洩，此 yaml 能安全的上傳至 Git Repo。
 
 3. 將 sealed-secret-CRD.yaml 上傳至 Kubernetes
-```
+```shell
 kubectl apply -f sealed-secret-CRD.yaml
 ```
 上傳 Sealed Secret CRD 後，Sealed Secrets Controller 會自動解密並生成標準 Kubernetes Secrets
-```
+```shell
 # 查 Sealed Secret CRD
 kubectl get sealedsecrets.bitnami.com sealed-secret-example
 

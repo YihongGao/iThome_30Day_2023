@@ -1,4 +1,4 @@
-# Day-24-CI/CD pipeline 建置-撰寫gitlab-ci.yml-for-Application Repo
+# Day-24-CI/CD pipeline 建置-配置 Application repo
 
 # 前言
 昨天將 `Manifest Repo` 建置好了，並能將 `Manifest Repo` 中的 yaml 透過 `kubectl apply` 部署到 EKS cluster。

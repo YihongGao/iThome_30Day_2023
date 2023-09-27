@@ -1,4 +1,5 @@
-# Day-23-CI/CD pipeline 建置-撰寫gitlab-ci.yml - for Manifest Repo
+# Day-23-CI/CD pipeline 建置-配置 Manifest repo
+
 
 # 前言
 昨天建置 `Manifest Repo`，且將 GitLab agent 安裝於 EKS Cluster 中，並測試 GitLab runner 能透過 `kubectl` 操作 EKS Cluster了。
@@ -15,12 +16,19 @@
 - kubernetes_config
   └─ <cluster name> (k8s 叢集名稱)
       ├─ infra（基礎設施）
+      │   ├─ configs
+      │   │   └─ YAML 檔案(configMap/secret)
       │   └─ <k8s Object> 或 <service name>
-      │       └─ YAML 檔案
+      │       └─ YAML 檔案 
+      │
       └─ apps（應用程序）
-          └─ <service name>
-              └─ YAML 檔案
+          └─ <namespace>
+              ├─ configs
+              │   └─ YAML 檔案(configMap/secret)
+              └─ <service name>
+                  └─ YAML 檔案 (deployment/service)
 ```
+> 有些團隊會把 infra 跟 apps 拆開在不同 repo，獨立管理，為了 demo 方便，這裡選擇合併再一起
 
 - `kubernetes_config`: 頂層目錄，用來明確標示目錄下的內容是什麼。
 - `<cluster name>`: cluster 名稱，能同時管理多個 cluster，每個 cluster 目錄下又有兩個目錄
@@ -34,6 +42,7 @@
 ```shell
 mkdir -p kubernetes_config/ithome-demo/infra/namespace
 mkdir -p kubernetes_config/ithome-demo/apps/ithome
+mkdir kubernetes_config/ithome-demo/apps/ithome/configs
 ```
 
 先我們來部署一個 nginx 服務在指定 namspace 中，用來測試 pipeline
@@ -169,7 +178,7 @@ deploy-apps:
 
 能看到 pipeline 都執行成功了，再來透過 `kubectl` 檢查是否符合預期
 
-```
+```shell
 $ kubectl get ns ithome
 
 NAME     STATUS   AGE
