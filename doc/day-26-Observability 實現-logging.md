@@ -72,34 +72,34 @@ Node 上的 kubelet 會負責自動清理 Log 資料，釋放 Disk 空間
     ```
 2. 安裝 `Filebeat`、`Logstash`、`Elasticsearch`、`Kibana`
     ```shell
-    kubectl create ns monitor
+    kubectl create ns logging
 
-    kubectl apply -n monitor -f https://raw.githubusercontent.com/YihongGao/iThome_30Day_2023/main/k8s-yaml/ELK/ELK.yaml
+    kubectl apply -n logging -f https://raw.githubusercontent.com/YihongGao/iThome_30Day_2023/main/k8s-yaml/ELK/ELK.yaml
     ```
     > 此 yaml 會一次安裝上述四個組件，並配置 Filebeat 使用 kubernetes 的 auto-discover 來收集日誌
 3. 檢查服務是否部署成功
     ```shell
-    $ kubectl get pod -n monitor 
+    $ kubectl get pod -n logging 
 
     NAME                         READY   STATUS    RESTARTS   AGE
     elasticsearch-es-default-0   1/1     Running   0          45m
     kibana-kb-868f8c4778-5s562   1/1     Running   0          51m
     logstash-ls-0                1/1     Running   0          44m
 
-    $ kubectl get daemonsets.apps -n monitor
+    $ kubectl get daemonsets.apps -n logging
 
     NAME                     DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
     filebeat-beat-filebeat   2         2         2       2            2           <none>          87m
     ```
-    - monitor namespace 中的 Pod 應該都要是 Running
-    - monitor namespace 中 daemonSet filebeat-beat-filebeat AVAILABLE 的數字要等同你的 worker node 數量   
+    - logging namespace 中的 Pod 應該都要是 Running
+    - logging namespace 中 daemonSet filebeat-beat-filebeat AVAILABLE 的數字要等同你的 worker node 數量   
   
     若以上都符合代表安裝完成
 
 ## 使用 Kibana 查詢日誌
 1. 查詢登入密碼
     ```shell
-    $ kubectl get secrets -n monitor elasticsearch-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
+    $ kubectl get secrets -n logging elasticsearch-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
 
     H5D2Vxi51h0ek0X10ykPR3cm
     ```
