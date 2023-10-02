@@ -114,10 +114,23 @@ eksctl create cluster \
 2023-09-20 22:30:37 [ℹ]  cluster should be functional despite missing (or misconfigured) client binaries
 2023-09-20 22:30:37 [✔]  EKS cluster "ithome-demo" in "ap-northeast-1" region is ready
 ```
+## 檢查 EKS context 是否已被加入到 kubeconfig
+```shell
+$ kubectl config get-contexts
+
+CURRENT   NAME                                               CLUSTER                                AUTHINFO                                           NAMESPACE
+          kind-my-cluster                                    kind-my-cluster                        kind-my-cluster                                    
+*         luciferstut@ithome-demo.ap-northeast-1.eksctl.io   ithome-demo.ap-northeast-1.eksctl.io   luciferstut@ithome-demo.ap-northeast-1.eksctl.io   ithome
+
+$ kubectl config current-context 
+
+luciferstut@ithome-demo.ap-northeast-1.eksctl.io
+```
+`kubectl config get-contexts` 時，其中一個 CLUSTER 是 `<you-eks-name>.<aws region>.eksctl.io`，並且使用 `kubectl config current-context`時，應該出現該 NAME，代表目前 kubectl 操作的是該 EKS。
+
+> 若想將 kubectl 切換回操作 kind 的 Cluster，能使用 `kubectl use-context <you-kind-cluster>`
 
 ## 透過 kubectl 操作 EKS
-
-
 ```
 # 查看 Node 
 $ kubectl get node 
