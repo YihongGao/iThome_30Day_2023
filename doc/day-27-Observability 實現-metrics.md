@@ -311,7 +311,8 @@ spec:
 # 總結
 今天介紹了 Prometheus 與 Grafana，並也透過 Spring boot 內建的 prometheus exporter，提供 metrics 讓 Prometheus 收集，到最後使用 Grafna 將 metrics 圖形化，希望對讀者們理解為什麼需要收集 metrics 跟 metrics 是如何收集到的。
 
-https://grafana.com/grafana/dashboards/
-
-
+# 參考
+- [AWS / 控制平面指標與 Prometheus](https://docs.aws.amazon.com/zh_tw/eks/latest/userguide/prometheus.html)
+- [AWS / DEPLOY GRAFANA](https://archive.eksworkshop.com/intermediate/240_monitoring/deploy-grafana/)
+ 
 [PromQL]: https://prometheus.io/docs/prometheus/latest/querying/basics/

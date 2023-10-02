@@ -139,6 +139,4 @@
 
 [GitLab runner]: https://docs.gitlab.com/runner/
 
-
-
 [helm]: https://helm.sh/docs/intro/install/

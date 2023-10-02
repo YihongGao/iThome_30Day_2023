@@ -227,6 +227,9 @@ Traces 是一種用於分析和監控分佈式應用程式性能的關鍵元素�
 # 總結
 今天使用了 jaeger 與 Opentelemetry agent 來收集並圖形化 Trace 資訊，能更容易理解請求的流向跟過程中的操作與花費時間，幫助我們解決微服務架構上，追蹤調用鏈不易的問題，此外進行效能調校時，也能一目瞭然的找到瓶頸點，能更精準的進行優化。
 
+# 參考
+- [Jaeger / Operator for Kubernetes](https://www.jaegertracing.io/docs/1.29/operator/)
+
 
 [Opentelemetry]: https://opentelemetry.io/
 
