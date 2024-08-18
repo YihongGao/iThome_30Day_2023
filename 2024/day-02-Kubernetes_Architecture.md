@@ -1,5 +1,5 @@
 
-# Day-02-Kubernetes Architecture
+# Day-02-Kubernetes Architecture - Control Plane
 於 [2023/Day-06-Kubernetes 介紹] 簡單地說明了 Kubernetes Architecture，這次我們會更深入了解 Kubernetes 中的每個組件，包括這些組件的運作原理 與 如何互相如何溝通的。
 
 
@@ -42,6 +42,9 @@ kube-scheduler 是 Kubernetes 中負責將 Pod 分配到適當的 Worker Node �
   - Pod 使用了 [Pod Topology Spread Constraints]，會優先挑選沒有運行相同副本的 Node 來運行新 Pod
   - 優先挑選資源使用率較低的 Node 來平衡資源壓力
 
+### cloud-controller-manager
+簡單來說，是負責 Kubernetes 與 Cloud Provider (GCP、AWS、Azure) 整合的組件，例如 [LoadBalancer type Service](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) 或是 [Gateway API](https://kubernetes.io/docs/concepts/services-networking/gateway/) 會在 Cloud Provider 的 plamform 建立出 LoadBalancer 來曝露服務。
+
 # 總結
 簡單來說，Control Plane 是一個已 kube-apiserver 作為中心的輻射狀結構，所有組件都透過與 kube-apiserver API 溝通來運作，也只有 kube-apiserver 能操作 etcd 資料庫，確保 etcd 的安全性與資料一致性。
 
@@ -59,5 +62,6 @@ kube-scheduler 是 Kubernetes 中負責將 Pod 分配到適當的 Worker Node �
 - [kubernetes指南](https://kubernetes.feisky.xyz/concepts/architecture)
 - [Kubernetes 核心介紹 Api Server](https://alanzhan.dev/post/2022-04-24-kubernetes-api-server/)
 
+[2023/Day-06-Kubernetes 介紹]:https://ithelp.ithome.com.tw/articles/10320161
 
 [Pod Topology Spread Constraints]: https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/
