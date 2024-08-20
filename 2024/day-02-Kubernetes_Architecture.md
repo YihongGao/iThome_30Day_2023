@@ -31,8 +31,8 @@ kube-apiserver 是 Kubernetes 中最重要的組件之一：
 - **保持配置與 Cluster 狀態一致**：
 ，每個 controller 都對一個資源(ex: ReplicaSet、Service) 負責，透過 透過與 kube-apiserver 取得系統最新的狀態，並依照配置的期望狀態作出反應
 
-### kube-scheduler
-kube-scheduler 是 Kubernetes 中負責將 Pod 分配到適當的 Worker Node 上運行的核心組件，透過調度策略將 Pod 分配到適當的 Worker Node 上。
+### scheduler
+scheduler 是 Kubernetes 中負責將 Pod 分配到適當的 Worker Node 上運行的核心組件，透過調度策略將 Pod 分配到適當的 Worker Node 上。
 
 調度策略包含兩個主要步驟
 - 過濾階段：將與期待狀態不符的 Node 排除，例如
@@ -45,14 +45,14 @@ kube-scheduler 是 Kubernetes 中負責將 Pod 分配到適當的 Worker Node �
 ### cloud-controller-manager
 簡單來說，是負責 Kubernetes 與 Cloud Provider (GCP、AWS、Azure) 整合的組件，例如 [LoadBalancer type Service](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) 或是 [Gateway API](https://kubernetes.io/docs/concepts/services-networking/gateway/) 會在 Cloud Provider 的 plamform 建立出 LoadBalancer 來曝露服務。
 
-# 總結
+# 小結
 簡單來說，Control Plane 是一個已 kube-apiserver 作為中心的輻射狀結構，所有組件都透過與 kube-apiserver API 溝通來運作，也只有 kube-apiserver 能操作 etcd 資料庫，確保 etcd 的安全性與資料一致性。
 
 而 kube-controller-manager 中運行的每個 Controller 發現它負責的資源與 Cluster 當前狀態不相符時，會操作 kube-apiserver API 嘗試將 Cluster 調整與配置相符。
 
 比如 ReplicaSetController 發現某 ReplicaSet 的預期狀態是需要 3 個 Pod，而 Cluster 當前只運行 2 個 Pod 時，ReplicaSetController 將創建新的 Pod 來滿足期望狀態。
 
-而 kube-scheduler 發現新增的 Pod，該 Pod 尚未被指定到 Worker Node 時，kube-scheduler 負責將 Pod 與適當的 Worker Node 綁定，由 kube-apiserver 後續與 Worker Node 交互，來完成把 Pod 部署到 Worker Node 的需求。
+而 scheduler 發現新增的 Pod，該 Pod 尚未被指定到 Worker Node 時，scheduler 負責將 Pod 與適當的 Worker Node 綁定，由 kube-apiserver 後續與 Worker Node 交互，來完成把 Pod 部署到 Worker Node 的需求。
 
 明天我們會繼續了解 Worker Node 的各個組件，與他們如何與 Control Plane 合作。
 

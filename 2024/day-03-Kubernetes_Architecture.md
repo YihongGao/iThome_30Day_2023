@@ -36,6 +36,8 @@ CRI 具體來說只是一個 Kubernetes 提供的標準化介面，只要該 Con
 - [CRI-O](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o)
 - [Docker Engine](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o)
 
+# 小結
+我們把 Control plane 與 Worker node 中的核心組件都有更深入的認識，明天我們會來介紹 **當建立 Pod 時，Kubernetes 中發生了什麼事**。
 
 # Refernce
 - [Kubernetes 官方/Container Runtime](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)
