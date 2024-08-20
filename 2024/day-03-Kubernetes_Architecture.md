@@ -1,5 +1,5 @@
 
-# Day-02-Kubernetes Architecture - Worker Node 
+# Day-03-Kubernetes Architecture - Worker Node 
 
 # Kubernetes Cluster Architecture
 ![Archtitecture](https://kubernetes.io/images/docs/kubernetes-cluster-architecture.svg)
