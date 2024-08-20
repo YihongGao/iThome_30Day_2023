@@ -1,6 +1,6 @@
 
 # Day-02-Kubernetes Architecture - Control Plane
-於 [2023/Day-06-Kubernetes 介紹] 簡單地說明了 Kubernetes Architecture，這次我們會更深入了解 Kubernetes 中的每個組件，包括這些組件的運作原理 與 如何互相如何溝通的。
+於 [2023/Day-06-Kubernetes 介紹] 簡單地說明了 Kubernetes Architecture，為了讓我們更深入理解，這次將 Kubernetes 的核心組件介紹得更詳細一點，包括這些組件的運作原理 與 如何互相如何溝通的。
 
 
 # Kubernetes Cluster Architecture
