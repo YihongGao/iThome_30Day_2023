@@ -1,5 +1,5 @@
 
-# Day-04-Kubernetes Architecture 當建立 Pod 時，發生了什麼
+# Day-04-Kubernetes Architecture 當建立 Pod 時，發生了什麼(一)
 
 # 前言
 前兩天我們更認識了 Kubernetes 的核心組件，今天我們要來聊聊，當你要求 Kubernetes 建立 Pod 的時候，Kubernetes 中到底發生了什麼事情，來將 Pod 建立出來，希望透過瞭解這個過程，再讀者開發或維護時更流暢。
@@ -65,17 +65,25 @@
 > 📘 這裡的 綁定(Binding) 是指 scheduler 更新 Pod spec 中的 NodeName 欄位，scheduler 並不是實際建立 Pod 的組件。
 
 ## 小結
-今天介紹了 建立 Pod 旅程的前半段，從 Client 端使用 `kubectl` 指令送出建立 Pod 的請求到 `kube-apiserver`，再 `kube-apiserver` 中通過 認證、授權、Admission controllers 校驗，最終持久化到 etcd。
-再來由 `scheduler` 依據調度策略找到最適合該 Pod 的 Node，`scheduler` 透過 `kube-apiserver` 更新到 Pod spec 的 NodeName。
+今天介紹了 建立 Pod 旅程的前半段，
+- 從 Client 端使用 `kubectl` 指令送出建立 Pod 的請求到 `kube-apiserver`
+- `kube-apiserver` 中進行 認證、授權、Admission controllers 校驗，最終持久化到 etcd。
+- `scheduler` 依據調度策略找到最適合該 Pod 的 Node。    
 
-明天會繼續介紹，建立 Pod 旅程的後半段。
+到目前為止，這個 Pod 資訊仍只是存在 etcd 中的一筆資料而已，尚未有任何 container 被這個操作給啟動。
+明天會繼續介紹，建立 Pod 旅程的後半段，關於 worker node 的組件如何接手處理這筆 Pod 的資料。
 
 # Refernce
+- [itnext.io/what-happens-when-you-create-a-pod-in-kubernetes]
+- [The birth story of the kubernetes pods]
+- [kubectl 创建 Pod 背后到底发生了什么]
+
+[itnext.io/what-happens-when-you-create-a-pod-in-kubernetes]:
 https://itnext.io/what-happens-when-you-create-a-pod-in-kubernetes-6b789b6db8a8
 
-https://sitereliability.in/deep-dive-the-birth-of-a-kubernetes-pod-understand-the-kubernetes-internals
+[The birth story of the kubernetes pods]: https://sitereliability.in/deep-dive-the-birth-of-a-kubernetes-pod-understand-the-kubernetes-internals
 
-https://icloudnative.io/posts/what-happens-when-k8s/
+[kubectl 创建 Pod 背后到底发生了什么]: https://icloudnative.io/posts/what-happens-when-k8s/
 
 [ResourceQuota]:https://kubernetes.io/docs/concepts/policy/resource-quotas/
 
