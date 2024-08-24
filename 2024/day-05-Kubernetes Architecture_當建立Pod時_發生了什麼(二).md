@@ -2,7 +2,7 @@
 # Day-05-Kubernetes Architecture 當建立 Pod 時，發生了什麼(二)
 
 # 前言
-昨天我們介紹了當下達 `kubectl` 指令來建立 Pod 時，再 Kubernetes 中 `kube-apiserver` 收到請求的處理流程，最後由 `scheduler` 透過演算法挑選了一個適合的 Node 與該 Pod binding。
+昨天我們介紹了當下達 `kubectl` 指令來建立 Pod 時，再 Kubernetes 中 `kube-apiserver` 收到請求的處理流程，最後由 `scheduler` 透過演算法挑選了一個適合的 Node 與該 Pod binding（綁定)，今天會 Worker Node 是如何將 Pod 建立出來的。
 
 
 # Kubernetes Cluster Architecture
@@ -15,11 +15,10 @@
 
 每個 Worker Node 上都會運行一個叫 `kubelet` 的 Process，它會定期向 `kube-apiserver` 查詢是否有新的 Pod 被 Binding 到該 Node，若發現有新 Pod 時，觸發建立流程。
 
-該流程會透過使用 CRI、CNI、CSI 這三個 interface，將建立 Pod 的任務分派給
-底層的實現軟體。
+該流程會透過使用 CRI、CNI、CSI 這三個 interface，將建立 Pod 的任務分派給底層的實現軟體。
 - CRI (Container Runtime Interface)： Kubernetes 用來與 `Container Runtime` 溝通，用來進行 Pod 的啟動、停止..等操作。
 
-- CNI (Container Network Interface)： Kubernetes 用來管理 Pod 的網路，簡單來說會幫你的 Pod 分配一個內部 IP，並負責讓該 Pod 能與其他 Pod 或外界進行網路通訊。
+- CNI (Container Network Interface)： Kubernetes 用來管理 Pod 的網路，簡單來說它會幫你的 Pod 分配一個內部 IP，並負責讓該 Pod 能與其他 Pod 或外界進行網路通訊。
 
 - CSI (Container Storage Interface)： Kubernetes 用來向 Storage 的 Driver 管理儲存空間的生命週期，比如：當 Pod 有請求 Volume 資源時，會透過此介面將儲存空間與 Pod 綁定。
 
@@ -43,6 +42,8 @@
     3. 檢查通往 image registry 的網路是否通暢
 - `CrashLoopBackOff`：代表 Pod 的容器持續被判斷為不可用
     1. 透過 `kubectl describe pod {pod-name}` 檢查具體原因並排除即可
+    2. 通常是容器中內部的應用程序啟動有問題，也能透過 `kubect logs {pod-name}` 檢視運行日誌
+    3. 檢查 [liveness] 配置是否與應用程序提供的端點相符
 
 ## 小結
 
@@ -55,7 +56,7 @@
 圖檔來至: [The birth story of the kubernetes pods](https://sitereliability.in/deep-dive-the-birth-of-a-kubernetes-pod-understand-the-kubernetes-internals)
 
 到這裡，讀者們是不是發現 `kube-proxy` 這個 worker node 的核心組件，沒有出現於此流程當中。
-明天我們會繼續介紹 `kube-proxy` 這個不可或缺的組件。
+明天我們會繼續介紹 `kube-proxy` 這個不可或缺的組件，在使用 kubernetes 中怎麼發揮作用。
 
 # Refernce
 - [itnext.io/what-happens-when-you-create-a-pod-in-kubernetes]
@@ -77,3 +78,5 @@ https://itnext.io/what-happens-when-you-create-a-pod-in-kubernetes-6b789b6db8a8
 [init-container]: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 
 [The journey of a Pod: A guide to the world of Pod Lifecycle]: https://medium.com/@seifeddinerajhi/navigating-the-journey-of-a-pod-a-guide-to-the-exciting-world-of-pod-lifecycle-a1fbc2c98c55
+
+[liveness]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
