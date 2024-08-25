@@ -144,7 +144,7 @@ Chain KUBE-SVC-V6MXQNFYUC7YNW7B (1 references)
 
 
 以上就是 `kube-proxy` 透過 iptables 實現對 Cluster IP 收到的流量進行負載均衡，並轉發到 Pod IP 的原理。
-> 📘 有興趣的讀者，能透過 `kubectl` 減少一個 Pod 或 移除 Service，再來看看 `iptables` 發生什麼變化。
+> 📘 有興趣的讀者，能刪除一個 Pod 或 移除 Service，再來看看 `iptables` 發生什麼變化。
 
 # 小結
 今天介紹了 `kube-proxy` 與 DNS 服務如何合作，實現 [Service] 的功能，提供穩定的調用端點 與 負載均衡。
