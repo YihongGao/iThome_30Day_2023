@@ -7,7 +7,7 @@
 
 在本系列中，我們將接續著介紹更多 Kubernetes 的應用 與 改善 CI/CD 流程，分為兩個章節
 - 介紹更多 Kubernetes 組件 與 功能
-  - Kubernetes 的核心組件介紹
+  - Kubernetes 的架構與核心組件
   - Pod 部署到 Kubernetes 的旅程
   - 如何提高 Pod 的可用性
   - 如何管理 Pod 的網路安全
