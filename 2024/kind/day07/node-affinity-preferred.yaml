@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-affinity-preferred
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-affinity-preferred
+  template:
+    metadata:
+      labels:
+        app: node-affinity-preferred
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                - key: GPU
+                  operator: Exists
+      containers:
+      - name: node-affinity-preferred
+        image: busybox:stable
+        args:
+        - /bin/sh
+        - -c
+        - sleep 3600
+        resources: 
+          requests:
+            cpu: 1

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-affinity-required-and-preferred
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: node-affinity-required-and-preferred
+  template:
+    metadata:
+      labels:
+        app: node-affinity-required-and-preferred
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: zone
+                operator: In
+                values:
+                - local-a
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: GPU
+                operator: Exists
+      containers:
+      - name: node-affinity-required-and-preferred
+        image: busybox:stable
+        args:
+        - /bin/sh
+        - -c
+        - sleep 3600
+        resources: 
+          requests:
+            cpu: 1
