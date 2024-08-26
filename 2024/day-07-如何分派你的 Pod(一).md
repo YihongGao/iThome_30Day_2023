@@ -298,7 +298,7 @@ node-affinity-required-and-preferred-7b786c97f7-zz92g   1/1     Running   0     
 
 故建議優先採用 Node Affinity 或是 NodeSelector，避免使用 NodeName 的方式，減少服務中斷的風險。
 
-明天會繼續介紹 `Inter-Pod Affinity` 與 `Pod TopologySpreadConstraints`，用來滿足更多生產環境的需求。
+明天會繼續介紹 `Inter-Pod Affinity`，用來滿足更多生產環境的需求。
 
 
 # Refernce
