@@ -152,7 +152,7 @@ redis-5f5d8dd5d4-nqxgw   1/1     Running   0          33m   10.244.1.4    ithome
 
 但若是希望為了高可用性，要讓 Pod 分散時，使用上還是會遇到一些問題
 - 使用 Node Affinity 時，Pod 可能會被集中在一個或少數的 Node，當該 Node 發生異常，可能會造成服務中斷
-- 使用 Inter-Pod Anti-Affinity，雖然能將 Pod 分散在不同 Node 上降低風險，但若進行 Deployment Rolling upgrade 時，新版本的 Pod 沒有節點可以部署，會導致 Rolling upgrade 無法進行。
+- 使用 Inter-Pod Anti-Affinity，雖然能將 Pod 分散在不同 Node 上降低風險，但若進行 Deployment Rolling update 時，新版本的 Pod 沒有節點可以部署，會導致 Rolling update 無法進行。
 
 所以明天會來介紹一個專門將 Pod 副本分散到不同 Node，降低 Node 崩潰的影響範圍，提高服務可用性的功能：`Pod TopologySpreadConstraints`
 
