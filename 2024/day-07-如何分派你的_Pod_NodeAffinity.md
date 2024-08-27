@@ -164,7 +164,7 @@ node-affinity-required   1/1     Running   0          15s   10.244.2.4   ithome-
 
 來介紹幾個重要的屬性
 - `requiredDuringSchedulingIgnoredDuringExecution`: 表示此 Pod 只部署在符合條件的 Node
-- `nodeSelectorTerms`: 篩選條件的群組，包含一到多個篩選條件，該群組中全部條件都滿足時，才代表該 Node 符合部署的條件，而 `requiredDuringSchedulingIgnoredDuringExecution` 能同時有多個 `nodeSelectorTerms`，當 Node 滿足任一 `nodeSelectorTerms` 時，該 Pod 即允許部署到該 Node
+- `nodeSelectorTerms`: 篩選條件的組合，包含一到多個篩選條件，該組合中全部條件都滿足時，才代表該 Node 符合部署的條件，而 `requiredDuringSchedulingIgnoredDuringExecution` 能同時有多個 `nodeSelectorTerms`，當 Node 滿足任一 `nodeSelectorTerms` 時，該 Pod 即允許部署到該 Node
 - `matchExpressions`: 定義篩選條件的區塊，依此例來說，就是找到有 `zone` label 且 value 為 `local-a` 的 Node，有更多條件式用法可參考[官方文件](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#operators)
 
 這個範例基本上跟 `nodeSelector` 等價，但條件式提供了更多方式能選擇作出更多變化。

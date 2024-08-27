@@ -17,15 +17,15 @@
 - 把相依性強的 Pod 放到同個 Node 或 zone，減少物理距離增加的網路延遲 或者 傳輸費用
 - 讓 Pod 的副本分散在不同 Node，降低 Node 異常時，發生服務中斷的風險
 
-再開始使用之前，要先了解 `Inter-Pod Affinity / Anti-affinity` 是如何分群的，相較 Node Affinity 固定已每個 Node 為單位進行分群，`Inter-Pod Affinity / Anti-affinity` 是透過 `topoologyKey` 這個屬性來判斷比對 Node Label，該 Label value 相同的為一個群組。
+再開始使用之前，要先了解 `Inter-Pod Affinity / Anti-affinity` 是如何分群的，相較 Node Affinity 固定已每個 Node 為單位進行分群，`Inter-Pod Affinity / Anti-affinity` 是透過 `topoologyKey` 這個屬性來判斷比對 Node Label，該 Label value 相同的為一個群組，該群組稱為 **topology**。
 
-常見的分群方式有
-1. 每個 Node 自己屬於一個群組，配置 `topologyKey=kubernetes.io/hostname`
+常見的 **topology** 配置有
+1. 每個 Node 自己為一個 topology，配置 `topologyKey=kubernetes.io/hostname`
 ![https://www.hwchiu.com/assets/images/BJ5XNkE33-caacc5f3872a29542bbd572b1b8b1ea2.png](https://www.hwchiu.com/assets/images/BJ5XNkE33-caacc5f3872a29542bbd572b1b8b1ea2.png)
 圖檔來源：- [HWCHIU 學習筆記 / 解密 Assigning Pod To Nodes(下)]
     > 📘 每個 Node 的 `kubernetes.io/hostname` value 通常都是唯一的
 
-2. 每個 zone 屬於一個群組，配置 `topologyKey=topology.kubernetes.io/zone`
+2. 每個 zone 為一個 topology，配置 `topologyKey=topology.kubernetes.io/zone`
 ![https://www.hwchiu.com/assets/images/BkD4V1Vhn-90ae866222166bf21ebfc41a92443a9f.png](https://www.hwchiu.com/assets/images/BkD4V1Vhn-90ae866222166bf21ebfc41a92443a9f.png)
 圖檔來源：- [HWCHIU 學習筆記 / 解密 Assigning Pod To Nodes(下)]
     > 📘 上圖中的Label `kind.zone`，是為了在本地環境模擬 zone Label 自定義的，能想像與 `topology.kubernetes.io/zone` 等價。     
@@ -159,7 +159,7 @@ redis-5f5d8dd5d4-nqxgw   1/1     Running   0          33m   10.244.1.4    ithome
 
 # Refernce
 - [kubernetes 官方文件](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
-- [HWCHIU 學習筆記 / k8s-assigning-pod](https://www.hwchiu.com/docs/2023/k8s-assigning-pod)
+- [HWCHIU 學習筆記 / 解密 Assigning Pod To Nodes(下)]
 - [小信豬的部落格 / [Kubernetes] Assigning Pods to Nodes](https://godleon.github.io/blog/Kubernetes/k8s-Assigning-Pod-to-Nodes/)
 
 [kind]: https://kind.sigs.k8s.io/
