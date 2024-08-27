@@ -1,5 +1,5 @@
 
-# Day-07-如何分派你的 Pod (一)
+# Day-07-如何分派你的 Pod - Node Selector / Node Affinity
 
 # 前言
 今天我們要來介紹再 Kubernetes 中能如何分派你的 Pod 到適合的 Node。

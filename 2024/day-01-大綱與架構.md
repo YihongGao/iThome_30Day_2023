@@ -9,13 +9,20 @@
 - 介紹更多 Kubernetes 組件 與 功能
   - Kubernetes 的架構與核心組件
   - Pod 部署到 Kubernetes 的旅程
+  - 如何分派你的 Pod 
+    - Node affinity
+    - Inter podAffinity
+    - Pod topology spread constraints
   - 如何提高 Pod 的可用性
   - 如何管理 Pod 的網路安全
-- 改善/增強 CI/CD in Kubernetes
+    - Network policy
+- DevOps in Kubernetes
   - 更完整的 GitOps 部署方案
+    - ArgoCD
   - 藍綠部署、金絲雀部署方案
-  - 透過 CI/CD 流程管理軟體的安全性
-
+    - ArgoRollout
+    - flipt
+  - DevSecOps 提高系統安全性
 
 不過近期筆者使用的生態系改到 Github 與 Google cloud plaform，故預計最終完成的架構會改如下
 ![architecture](https://github.com/YihongGao/picx-images-hosting/raw/master/20240818/架構圖.1.4qr8wr02xp.webp)

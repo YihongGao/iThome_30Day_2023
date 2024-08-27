@@ -1,5 +1,5 @@
 
-# Day-08-如何分派你的 Pod (二)
+# Day-08-如何分派你的 Pod - Inter-Pod Affinity
 
 # 前言
 昨天介紹了三個依據 Node 配置(Name 或 label) 來安排 Pod 要被分配到哪個 Node 的方式
