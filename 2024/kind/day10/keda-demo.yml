@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: keda-demo
+    scrape: spring-boot-prometheus-exporter
+  name: keda-demo
+  namespace: ithome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keda-demo
+  strategy: 
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: keda-demo
+        scrape: spring-boot-prometheus-exporter
+    spec:
+      containers:
+      - image: luciferstut/spring-boot-application-for-ithome2024:day10
+        imagePullPolicy: Always
+        name: spring-boot-application-for-ithome2024
+        ports:
+        - name: web
+          containerPort: 8080
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: keda-demo
+    scrape: spring-boot-prometheus-exporter
+  name: keda-demo
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: keda-demo
+status:
+  loadBalancer: {}

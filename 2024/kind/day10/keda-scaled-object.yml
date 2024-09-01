@@ -1,0 +1,23 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: keda-demo
+  namespace: ithome
+spec:
+  fallback:
+    failureThreshold: 3
+    replicas: 6
+  minReplicaCount: 2
+  maxReplicaCount: 6
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: keda-demo
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-k8s.monitoring.svc.cluster.local:9090
+        threshold: '10'
+        activationThreshold: '0'
+        query: sum(rate(http_server_requests_seconds_count{container="spring-boot-application-for-ithome2024", "namespace"="ithome"}[2m]))
+        

@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: spring-boot-prometheus-exporter
+  namespace: ithome
+  labels:
+    scrape: spring-boot-prometheus-exporter
+spec:
+  selector:
+    matchLabels:
+      scrape: spring-boot-prometheus-exporter
+  podMetricsEndpoints:
+  - port: web
+    path: /actuator/prometheus
