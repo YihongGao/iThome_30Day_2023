@@ -1,15 +1,15 @@
 
-# Day-07-如何分派你的 Pod - Node Selector / Node Affinity
+# Day-07-如何調度你的 Pod - Node Selector / Node Affinity
 
 # 前言
-今天我們要來介紹再 Kubernetes 中能如何分派你的 Pod 到適合的 Node。
+今天我們要來介紹如何引導 Kubernetes 將 Pod 調度到我們希望的 Node。
 
-Kubernetes Cluster 是由多個 Server 或 VM 組成的，而每個 Node 都可能擁有不同的配置或用途規劃，比如
+Kubernetes 中所有 Pod 都運行在 Worker node 上，而每個 Node 都可能擁有不同的配置或用途規劃，比如
 
 - 某服務希望被部署到擁有 GPU 資源的節點
 - 將基礎建設(Kafka、Redis..等)與業務應用程序的服務隔離再不同 Node，能降低兩者互相影響穩定性的問題
 
-我們今天會介紹幾個操作方式，並透過 [kind] 在本地演練一次
+我們今天會介紹幾個操作方式，並透過 [kind] 在本地演練一次，讓 Kubernetes 依照我們的需求調度 Pod。
 
 # 環境準備
 於本地建構一個 4 個 worker node 的 k8s 環境
@@ -54,7 +54,7 @@ kubens ithome
 建立四個 Worker node，並透過 `zone=local-a` 與 `zone=local-b` 的 Label 模擬分佈在不同 zone，而其中一個 node 有個 `GPU=true` 的 Label 模擬擁有 GPU 運算資源。
 
 # NodeName
-直接透過指定 Pod.spec 中的 Node，來強制指定 Pod 要分派到什麼 Node 上。
+直接透過指定 Pod.spec 中的 Node，來強制指定 Pod 要調度到什麼 Node 上。
 
 ```shell
 echo 'apiVersion: v1
@@ -76,7 +76,7 @@ kubectl get pod node-name -o wide
 NAME    READY   STATUS    RESTARTS   AGE   IP           NODE                  NOMINATED NODE   READINESS GATES
 node-name   1/1     Running   0          48s   10.244.4.2   ithome-2024-worker3   <none>           <none>
 ```
-能看到 Pod 被正確分配到 ithome-2024-worker3 上了，原理是我們代替 `scheduler` 的任務，直接把 Pod 指定到 Node，所以這個 Pod 會由 `kubelet` 直接接手進行部署，不需要 `scheduler` 進行分派。
+能看到 Pod 被正確分配到 ithome-2024-worker3 上了，原理是我們代替 `scheduler` 的任務，直接把 Pod 指定到 Node，所以這個 Pod 會由 `kubelet` 直接接手進行部署，不需要 `scheduler` 進行調度。
 
 雖然這個做法簡單有效，但存在以下風險，所以通常我們不會選用此方式
 - 若該 node 不存在時，此 Pod 無法部署成功
@@ -289,7 +289,7 @@ node-affinity-required-and-preferred-7b786c97f7-zz92g   1/1     Running   0     
 能看到大部分的 Pod 都被部署到有 GPU label 的 ithome-2024-worker2，當 ithome-2024-worker2 資源不足時，仍能部署到滿足 zone=local-a 條件的 ithome-2024-worker。
 
 # 小結
-今天介紹了三個分派 Pod 到我們希望的 Node 的方式，
+今天介紹了三個引導 kubernetes 調度 Pod 到我們希望的 Node 的方式，
 1. NodeName
 2. NodeSelector
 3. Node Affinity

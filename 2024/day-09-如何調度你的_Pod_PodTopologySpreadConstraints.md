@@ -1,5 +1,5 @@
 
-# Day-09-如何分派你的 Pod - Pod Topology Spread Constraints
+# Day-09-如何調度你的 Pod - Pod Topology Spread Constraints
 
 # 前言
 前兩天我們介紹了

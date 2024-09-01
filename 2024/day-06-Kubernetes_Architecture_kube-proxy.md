@@ -1,5 +1,5 @@
 
-# Day-05-Kubernetes Architecture - kube-proxy
+# Day-05-Kubernetes Architecture 介紹 - kube-proxy
 
 # 前言
 前兩天我們認識了建立 Pod 的指令背後，在 kubernetes 中發生的一連串處理機制。
@@ -8,7 +8,7 @@
 在介紹 kube-proxy 之前，要先回顧一下 Kubernetes - [Service]
 
 # 爲什麼需要 Service
-當 Pod 被建立時，會由 CNI (Container Network Interface) 分配一個內部 IP 給 Pod 提供其他 Pod 存取，稱為 Pod IP。
+**因為 Pod IP 是不穩定的**，當 Pod 被建立時，會由 CNI (Container Network Interface) 分配一個內部 IP 給 Pod 提供其他 Pod 存取，稱為 Pod IP。
 
 但 Pod 隨時可能會被銷毀或創建，而每次 Pod 被分配到的 Pod IP 可能是不同的，所以使用 Pod IP 來存取 Pod 並不是一個好主意。
 
@@ -19,14 +19,14 @@
 
 > 📘 關於 [Service] 的使用方式能參考[官方文件](https://kubernetes.io/docs/concepts/services-networking/service/) 或是 筆者去年的[分享](https://ithelp.ithome.com.tw/articles/10323802)
 
-目前已經湊齊一組 Service 與 Pod 的連線資訊
+簡單來說，當 [Service] 與 [Endpoints] 建立後，Kubernetes 中具有以下連線資訊
 - DNS 服務中有 Service 的 `DNS name` 與其 `ClusterIP`
 - etcd 中有 `Cluster IP` 與其關聯的 `Pod IP`
 
-所以我們知道要存取 Pod 時，是透過 DNS name 向 DNS 服務找到 Cluster IP，並對 Cluster IP 發送請求。
+所以穩定存取 Pod 的方式，能透過 DNS name 向 DNS 服務找到 Cluster IP，並對 Cluster IP 發送請求，由 Cluster IP 做爲 Pod 接收流量的位址。
 ![https://miro.medium.com/v2/resize:fit:720/format:webp/0*JEGbAlXFEFgASFrq.png](https://miro.medium.com/v2/resize:fit:720/format:webp/0*JEGbAlXFEFgASFrq.png)
 
-但是誰負責送往 Cluster IP 的流量，進行轉發、負載均衡到 Pod 上？    
+但是誰負責處理 Cluster IP 收到的流量，將其進行轉發、負載均衡到 Pod 上？    
 這就是由 `kube-proxy` 發揮作用的時刻了。
 
 # kube-proxy

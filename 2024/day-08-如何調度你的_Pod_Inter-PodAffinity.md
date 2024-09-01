@@ -1,5 +1,5 @@
 
-# Day-08-如何分派你的 Pod - Inter-Pod Affinity
+# Day-08-如何調度你的 Pod - Inter-Pod Affinity
 
 # 前言
 昨天介紹了三個依據 Node 配置(Name 或 label) 來安排 Pod 要被分配到哪個 Node 的方式
@@ -76,7 +76,7 @@ kubectl apply -f redis.yaml
 作為 強制條件 或者是 優先傾向。
 只是 `matchExpressions` 比對的對象改成該 Node 上運行的 Pod label，並依照 `topologyKey` 進行分群。
 
-我們能看到 redis pod 被均勻分佈在不同 node 上，因為 topologyKey 指定 `kubernetes.io/hostname` 並且搭配 `podAntiAffinity` 表示 Pod 不希望被分派到有運行 `app=redis` label pod 的 Node。
+我們能看到 redis pod 被均勻分佈在不同 node 上，因為 topologyKey 指定 `kubernetes.io/hostname` 並且搭配 `podAntiAffinity` 表示 Pod 不希望被調度到有運行 `app=redis` label pod 的 Node。
 ```shell
 kubectl get pod -o wide
 
@@ -139,7 +139,7 @@ redis-5f5d8dd5d4-nqxgw   1/1     Running   0          33m   10.244.1.4    ithome
 - 透過 `podAffinity.requiredDuringSchedulingIgnoredDuringExecution` 讓兩個服務運行在同個 node 或同個 zone，降低網路延遲或網路成本。
 
 # 小結
-透過這兩天認識的 Node Affinity 與 Inter-Pod Affinity 能滿足許多分派 Pod 的需求，
+透過這兩天認識的 Node Affinity 與 Inter-Pod Affinity 能滿足許多調度 Pod 的需求，
 
 回顧一下他們常見的使用案例
 - Node Affinity 
