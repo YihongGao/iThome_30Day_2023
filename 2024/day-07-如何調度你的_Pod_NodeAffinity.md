@@ -15,8 +15,9 @@
 # 環境準備
 於本地建構一個 4 個 worker node 的 k8s 環境
 
-```shell
-echo 'apiVersion: kind.x-k8s.io/v1alpha4
+```yaml
+-- kind-config.yaml
+apiVersion: kind.x-k8s.io/v1alpha4
 kind: Cluster
 nodes:
 - role: control-plane
@@ -41,8 +42,10 @@ nodes:
     zone: local-b
 - role: worker
   labels:
-    zone: local-b' > kind-config.yaml
+    zone: local-b'
+```
 
+```shell
 kind create cluster --name ithome-2024 --config kind-config.yaml
 
 # create namespace
@@ -57,8 +60,9 @@ kubens ithome
 # NodeName
 直接透過指定 Pod.spec 中的 Node，來強制指定 Pod 要調度到什麼 Node 上。
 
-```shell
-echo 'apiVersion: v1
+```yaml
+-- node-name.yaml
+apiVersion: v1
 kind: Pod
 metadata:
   name: node-name
@@ -66,8 +70,10 @@ spec:
   containers:
   - name: nginx
     image: nginx
-  nodeName: ithome-2024-worker3' > node-name.yaml
+  nodeName: ithome-2024-worker3
+```
 
+```shell
 # deploy
 kubectl apply -f node-name.yaml
 
@@ -87,8 +93,9 @@ node-name   1/1     Running   0          48s   10.244.4.2   ithome-2024-worker3 
 # NodeSelector
 nodeSelector 是一個更安全且簡單的方式，透過 `pod.spec.nodeSelector` 指定 Node 的 Label，由 `scheduler` 去找出有符合 label 的 Node List 後，依照資源冗余等演算法從中找到最適合的 Node
 
-```shell
-echo 'apiVersion: v1
+```yaml
+-- node-selector.yaml
+apiVersion: v1
 kind: Pod
 metadata:
   name: node-selector
@@ -97,8 +104,10 @@ spec:
   - name: nginx
     image: nginx
   nodeSelector:
-    zone: local-a'  > node-selector.yaml
+    zone: local-a'
+```
 
+```shell
 # deploy
 kubectl apply -f node-selector.yaml
 
@@ -134,8 +143,9 @@ node-selector   1/1     Running   0          41s   10.244.3.2   ithome-2024-work
 
 ## 使用範例
 ### 部署到有 Label `zone=local-a` 的 Node
-```shell
-echo 'apiVersion: v1
+```yaml
+-- node-affinity-required.yaml
+apiVersion: v1
 kind: Pod
 metadata:
   name: node-affinity-required
@@ -151,8 +161,10 @@ spec:
           - key: zone
             operator: In
             values:
-            - local-a' > node-affinity-required.yaml
+            - local-a'
+```
 
+```shell
 kubectl apply -f node-affinity-required.yaml
 
 # 看 pod 是否被分配到 zone=local-a 的 Node
@@ -173,8 +185,9 @@ node-affinity-required   1/1     Running   0          15s   10.244.2.4   ithome-
 這個範例基本上跟 `nodeSelector` 等價，但條件式提供了更多方式能選擇作出更多變化。
 
 ## 優先部署到包含 GPU lable 的 Node
-```shell
-echo 'apiVersion: apps/v1
+```yaml
+-- node-affinity-preferred.yaml
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: node-affinity-preferred
@@ -205,8 +218,10 @@ spec:
         - sleep 3600
         resources: 
           requests:
-            cpu: 1' > node-affinity-preferred.yaml
+            cpu: 1
+```
 
+```shell
 kubectl apply -f node-affinity-preferred.yaml
 
 # 有 GPU label 的 Node 清單
@@ -234,8 +249,9 @@ ode-affinity-preferred-6bddbf654-78xfp   1/1     Running   0          103s   10.
 ## 組合技：必須部署在 `zone=local-a` 的 Node 上，並且優先部署到有 GPU label 的 節點
 同時使用 `requiredDuringSchedulingIgnoredDuringExecution` 與 `preferredDuringSchedulingIgnoredDuringExecution` 來完成這需求
 
-```shell
-echo 'apiVersion: apps/v1
+```yaml
+-- node-affinity-required-and-preferred.yaml
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: node-affinity-required-and-preferred
@@ -273,8 +289,10 @@ spec:
         - sleep 3600
         resources: 
           requests:
-            cpu: 1' > node-affinity-required-and-preferred.yaml
+            cpu: 1'
+```
 
+```shell
 kubectl apply -f node-affinity-required-and-preferred.yaml
 
 # 看 pod 是否分配到有 zone=local-a 的 Node，且優先部署在有 GPU label 的 Node
