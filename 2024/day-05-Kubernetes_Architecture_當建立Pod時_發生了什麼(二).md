@@ -1,8 +1,8 @@
 
-# Day-05-Kubernetes Architecture 當建立 Pod 時，發生了什麼(二)
+# Day-05-Kubernetes Architecture 介紹 - 當建立 Pod 時，發生了什麼(二)
 
 # 前言
-昨天我們介紹了當下達 `kubectl` 指令來建立 Pod 時，再 Kubernetes 中 `kube-apiserver` 收到請求的處理流程，最後由 `scheduler` 透過演算法挑選了一個適合的 Node 與該 Pod binding（綁定)，今天會 Worker Node 是如何將 Pod 建立出來的。
+昨天我們介紹了當下達 `kubectl` 指令來建立 Pod 時，Control plane 對請求進行驗證，並把配置持久化到資料庫後，透過調度演算法挑選了一個適合的 Node 與該 Pod binding（綁定)，今天會介紹 Worker Node 是如何將 Pod 建立出來的。
 
 
 # Kubernetes Cluster Architecture
@@ -13,18 +13,23 @@
 ![https://miro.medium.com/v2/resize:fit:1400/format:webp/0*GWevN0yZS4roLOtu.png](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*GWevN0yZS4roLOtu.png)    
 圖檔來至: [itnext.io/what-happens-when-you-create-a-pod-in-kubernetes](https://itnext.io/what-happens-when-you-create-a-pod-in-kubernetes-6b789b6db8a8)
 
-每個 Worker Node 上都會運行一個叫 `kubelet` 的 Process，它會定期向 `kube-apiserver` 查詢是否有新的 Pod 被 Binding 到該 Node，若發現有新 Pod 時，觸發建立流程。
+每個 Worker Node 上都會運行一個叫 `kubelet` 的 Process，負責監控與管理該 Node 的 Pod，它會定期向 `kube-apiserver` 查詢是否有新的 Pod 被 Binding 到該 Node，若發現有新 Pod 時，則觸發建立流程。
 
 該流程會透過使用 CRI、CNI、CSI 這三個 interface，將建立 Pod 的任務分派給底層的實現軟體。
-- CRI (Container Runtime Interface)： Kubernetes 用來與 `Container Runtime` 溝通，用來進行 Pod 的啟動、停止..等操作。
+1. CRI (Container Runtime Interface)： Kubernetes 用來與 `Container Runtime` 溝通，用來進行 Pod 的啟動、停止..等操作。
+> 📘 常見的 Container Runtime 如 dockershim、containerd、CRI-O 這類負責建立、啟動、停止、銷毀 container 的實現軟體
+2. CNI (Container Network Interface)： Kubernetes 用來管理 Pod 的網路，簡單來說它會幫你的 Pod 分配一個內部 IP，並負責讓該 Pod 能與其他 Pod 或外界進行網路通訊。
 
-- CNI (Container Network Interface)： Kubernetes 用來管理 Pod 的網路，簡單來說它會幫你的 Pod 分配一個內部 IP，並負責讓該 Pod 能與其他 Pod 或外界進行網路通訊。
-
-- CSI (Container Storage Interface)： Kubernetes 用來向 Storage 的 Driver 管理儲存空間的生命週期，比如：當 Pod 有請求 Volume 資源時，會透過此介面將儲存空間與 Pod 綁定。
+3. CSI (Container Storage Interface)： Kubernetes 用來向 Storage 的 Driver 管理儲存空間的生命週期，比如：當 Pod 有請求 Volume 資源時，會透過此介面將儲存空間與 Pod 綁定。
 
 > 📘 Kubernetes 透過依賴 interface，而不直接使用特定實作來完成 Pod 的建立與生命週期，使得 Kubernetes 管理者能依照需求替換不同的實現軟體。
 
-簡單來說 Kubernetes 透過 CRI 初始化 Pod 並由 CNI 為該 Pod 配置內部 IP 給 Pod 與其網路設定，最後讓 CSI 掛載 volume 到 Pod，提供 Storage 空間。
+簡單來說 Kubernetes 
+- 透過 CRI 初始化 Pod
+- 透過 CNI 為該 Pod 配置內部 IP 給 Pod 與其網路設定
+- 最後讓 CSI 掛載 volume 到 Pod，提供 Storage 空間。
+
+這時，Pod 與其中的 Container 就正式運行在該 Worker Node 之中了。
 
 ![https://miro.medium.com/v2/resize:fit:1400/format:webp/0*WgOaCA0trzf4SmjJ.png](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*WgOaCA0trzf4SmjJ.png)
 圖檔來至: [itnext.io/what-happens-when-you-create-a-pod-in-kubernetes](https://itnext.io/what-happens-when-you-create-a-pod-in-kubernetes-6b789b6db8a8)

@@ -1,5 +1,5 @@
 
-# Day-03-Kubernetes Architecture - Worker Node 
+# Day-03-Kubernetes Architecture 介紹 - Worker Node 
 
 # Kubernetes Cluster Architecture
 ![Archtitecture](https://kubernetes.io/images/docs/kubernetes-cluster-architecture.svg)
@@ -10,7 +10,7 @@
 ## Worker Node
 ![worker node](https://github.com/YihongGao/picx-images-hosting/raw/master/20240818/截圖-2024-08-18-下午1.34.13.7i0b5m8o6j.webp)
 
-在 Kubernetes  Cluster 中，Control Plane 之外的伺服器通常都是 Worker Node，這些 Node 負責執行使用者配置的 Pod(Container)，每個 Worker Node 會向 Control plane 註冊該伺服器的資訊與定期回報狀態，讓 Control Plane 有足夠資訊來協調 Cluster 運作
+在 Kubernetes  Cluster 中，Control Plane 之外的伺服器通常都是 Worker Node，這些 Node 負責執行使用者配置的 workload(Ex: Pod)，每個 Worker Node 會向 Control plane 註冊該伺服器的資訊與定期回報狀態，讓 Control Plane 有足夠資訊來協調 Cluster 運作
 > 📘 精確來說 Worker Node 上運行的是 Pod 配置的 container，而 Pod 是 Kubernetes 的抽象概念。
 
 ## kubelet
@@ -29,7 +29,7 @@ kube-proxy 會依照 Service 的配置，將 Service 被分配到的 Cluster IP 
 而通常 Cluster 內也會安裝 DNS 服務(如 [CoreDNS])，當有對 [Service FQDN] 發出請求時，會透過 DNS 服務解析出該 FQDN 的 Cluster IP，調用端將流量往 Cluster IP 發送後，後續由 kube-proxy 將流量往正確的 Pod 轉發，來實現 [Service] 的功能性。
 
 ## Container Runtime Interface(CRI)
-CRI 具體來說只是一個 Kubernetes 提供的標準化介面，只要該 Container Runtime 實現了 CRI 的介面，都能作為 Kubernetes 運行 Pod 的底層實現，負責處理 Pod 的生老病死，該介面也讓 Kubernetes 不依賴特定的 Container Runtime(如 Docker Engine)。
+CRI 具體來說只是一個 Kubernetes 提供的標準化介面，只要該 Container Runtime 實現了 CRI 的介面，都能作為 Kubernetes 運行 Pod 的底層實現，負責處理 Pod 的生老病死，該介面也讓 Kubernetes 不依賴特定的 Container Runtime(如 dockershim)。
 
 常見的 CRI 實現有
 - [Containerd](https://containerd.io/)
