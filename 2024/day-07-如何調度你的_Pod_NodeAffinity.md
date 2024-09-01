@@ -16,7 +16,7 @@
 於本地建構一個 4 個 worker node 的 k8s 環境
 
 ```yaml
--- kind-config.yaml
+## kind-config.yaml
 apiVersion: kind.x-k8s.io/v1alpha4
 kind: Cluster
 nodes:
@@ -61,7 +61,7 @@ kubens ithome
 直接透過指定 Pod.spec 中的 Node，來強制指定 Pod 要調度到什麼 Node 上。
 
 ```yaml
--- node-name.yaml
+# node-name.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -94,7 +94,7 @@ node-name   1/1     Running   0          48s   10.244.4.2   ithome-2024-worker3 
 nodeSelector 是一個更安全且簡單的方式，透過 `pod.spec.nodeSelector` 指定 Node 的 Label，由 `scheduler` 去找出有符合 label 的 Node List 後，依照資源冗余等演算法從中找到最適合的 Node
 
 ```yaml
--- node-selector.yaml
+# node-selector.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -144,7 +144,7 @@ node-selector   1/1     Running   0          41s   10.244.3.2   ithome-2024-work
 ## 使用範例
 ### 部署到有 Label `zone=local-a` 的 Node
 ```yaml
--- node-affinity-required.yaml
+# node-affinity-required.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -186,7 +186,7 @@ node-affinity-required   1/1     Running   0          15s   10.244.2.4   ithome-
 
 ## 優先部署到包含 GPU lable 的 Node
 ```yaml
--- node-affinity-preferred.yaml
+# node-affinity-preferred.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -250,7 +250,7 @@ ode-affinity-preferred-6bddbf654-78xfp   1/1     Running   0          103s   10.
 同時使用 `requiredDuringSchedulingIgnoredDuringExecution` 與 `preferredDuringSchedulingIgnoredDuringExecution` 來完成這需求
 
 ```yaml
--- node-affinity-required-and-preferred.yaml
+# node-affinity-required-and-preferred.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:

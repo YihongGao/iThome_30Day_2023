@@ -36,7 +36,7 @@ KEDA 再 Kubernetes 中，透過以下三個主要組件 與 HPA 互相合作來
 
 ## CustomResourceDefinition（CRD)
 1. ScaledObjects：
-    - 用來定義 Kubernetes Work load（如 Deployment 或 StatefulSet）的自動擴展策略
+    - 用來定義 Kubernetes Workload（如 Deployment 或 StatefulSet）的自動擴展策略
     - 監控的事件來源、觸發擴展的條件...等配置。
 
 2. ScaledJob：

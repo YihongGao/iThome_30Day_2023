@@ -12,10 +12,6 @@ spec:
   selector:
     matchLabels:
       app: keda-demo
-  strategy: 
-    rollingUpdate:
-      maxSurge: 50%
-      maxUnavailable: 25%
   template:
     metadata:
       creationTimestamp: null
@@ -23,13 +19,42 @@ spec:
         app: keda-demo
         scrape: spring-boot-prometheus-exporter
     spec:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: keda-demo
+        matchLabelKeys:
+        - pod-template-hash
       containers:
       - image: luciferstut/spring-boot-application-for-ithome2024:day10
         imagePullPolicy: Always
         name: spring-boot-application-for-ithome2024
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         ports:
         - name: web
           containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          failureThreshold: 3
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          failureThreshold: 3
+          periodSeconds: 10
+          
 status: {}
 
 ---

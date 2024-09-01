@@ -41,7 +41,7 @@
 先部署 redis，並透過 Inter-Pod Anti-affinity 讓他盡量分散到每個 Node
 
 ```yaml
--- redis.yaml
+## redis.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -92,7 +92,7 @@ redis-5f5d8dd5d4-nqxgw   1/1     Running             0          31m   10.244.1.4
 
 接著我們透過 podAffinity 將 nginx 的部署到同個 pod
 ```yaml
--- nginx.yaml
+## nginx.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
