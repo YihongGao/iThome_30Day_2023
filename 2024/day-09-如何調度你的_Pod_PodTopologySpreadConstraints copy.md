@@ -3,19 +3,21 @@
 
 # 前言
 前兩天我們介紹了
+- NodeSelector
 - Node Affinity / Anti-affinity
 - Inter-Pod Affinity / Anti-affinity 
+
 已經能靈活地引導 `scheduler` 幫我們把 Pod 調度到我們期待的 Worker Node 了。
-但也發現若是期待 Pod 平均分散到 Worker Node，仍然會遇到一些問題
+但也發現若希望 Pod 平均分散到 Worker Node，仍然會遇到一些問題
 - 當僅 Node Affinity 時，Pod 仍可能集中在少數 Node 上
 - 搭配 Inter-Pod Affinity 之後，限制每個 Node 只能一個同類的 Pod 時，又降低最大可用的副本數量。
 
-這兩種問題可能影響可用性的因素，所以今天要介紹的 `Pod Topology Spread Constraints` 就是專門解決此問題而生的設計的。
+這兩種問題可能會成為降低可用性的因素，所以今天要介紹的 `Pod Topology Spread Constraints` 就是專門解決此問題而生的設計的。
 
 # Pod Topology Spread Constraints
 `Pod Topology Spread Constraints` 的目的就是最大程度的打散 Pod 到不同的 topology上，其核心是一個叫 `skew` 數據，每組 Pod 在不同 topology 時，都會依據 Pod 副本數量計算出對應的 `skew` 值。
 
-運算公式為：skew = Pods **number** matched in **current** topology - **min** Pods matches in a topology
+計算公式為：skew = Pods **number** matched in **current** topology - **min** Pods matches in a topology
 
 ![https://www.hwchiu.com/assets/images/SkWAL7S33-08bbfe0f59afad8380f63e1af86df610.png](https://www.hwchiu.com/assets/images/SkWAL7S33-08bbfe0f59afad8380f63e1af86df610.png)
 圖檔來源: [HWCHIU 學習筆記 / 解密 Assigning Pod To Nodes(下)]
@@ -62,9 +64,9 @@ spec:
 與 `Inter-Pod Affinity` 相比較，`Pod Topology Spread Constraints` 提供的 `maxSkew` 與 `whenUnsatisfiable`，讓 Pod 能均勻分佈到每個 topology，且不再有每個 topology 只能運行一個 Pod 的限制，大大的提高資源利用率。
 
 ## 進階用法
-某些情境下，Pod 的分佈還是會與 `maxSkew` 有一點落差，比如 Deployment 進行 Rolling update 時，可能有以下情境
+某些情境下，Pod 的分佈還是會與 `maxSkew` 出現一些非預期情況，比如 Deployment 進行 Rolling update 時，可能有以下情境
 
-當 Rolling update，時，通常新舊版本的 Pod 都會被 `LabelSelectors` 選中，故在新舊 Pod 切換期間可能有下情況發生
+當 Rolling update 時，新舊版本的 Pod 都會被 `LabelSelectors` 選中，故在新舊 Pod 切換期間可能有下情況發生
 ![https://miro.medium.com/v2/resize:fit:1400/format:webp/0*DSX-uCIKI-MlW92B](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*DSX-uCIKI-MlW92B)
 圖檔來自: [Avoiding Kubernetes Pod Topology Spread Constraint Pitfalls]
 
