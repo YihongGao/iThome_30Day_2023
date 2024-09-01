@@ -4,10 +4,11 @@
 # 前言
 今天我們要來介紹如何引導 Kubernetes 將 Pod 調度到我們希望的 Node。
 
-Kubernetes 中所有 Pod 都運行在 Worker node 上，而每個 Node 都可能擁有不同的配置或用途規劃，比如
+在 Kubernetes 中，所有 Pod 都會運行在 Worker Node 上，而每個 Node 可能具有不同的配置或用途。以下是幾個常見的調度需求：
 
-- 某服務希望被部署到擁有 GPU 資源的節點
-- 將基礎建設(Kafka、Redis..等)與業務應用程序的服務隔離再不同 Node，能降低兩者互相影響穩定性的問題
+- 將某些服務部署到擁有 GPU 資源的節點上。
+- 將基礎設施（如 Kafka、Redis 等）與業務應用程序隔離到不同的 Node，減少兩者之間的互相干擾，提升穩定性。
+- 將同一服務的 Pod 副本分散部署在不同的 Node 或地理位置（region/zone），降低整個服務同時不可用的風險。
 
 我們今天會介紹幾個操作方式，並透過 [kind] 在本地演練一次，讓 Kubernetes 依照我們的需求調度 Pod。
 
@@ -164,7 +165,9 @@ node-affinity-required   1/1     Running   0          15s   10.244.2.4   ithome-
 
 來介紹幾個重要的屬性
 - `requiredDuringSchedulingIgnoredDuringExecution`: 表示此 Pod 只部署在符合條件的 Node
+
 - `nodeSelectorTerms`: 篩選條件的組合，包含一到多個篩選條件，該組合中全部條件都滿足時，才代表該 Node 符合部署的條件，而 `requiredDuringSchedulingIgnoredDuringExecution` 能同時有多個 `nodeSelectorTerms`，當 Node 滿足任一 `nodeSelectorTerms` 時，該 Pod 即允許部署到該 Node
+
 - `matchExpressions`: 定義篩選條件的區塊，依此例來說，就是找到有 `zone` label 且 value 為 `local-a` 的 Node，有更多條件式用法可參考[官方文件](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#operators)
 
 這個範例基本上跟 `nodeSelector` 等價，但條件式提供了更多方式能選擇作出更多變化。
@@ -289,16 +292,16 @@ node-affinity-required-and-preferred-7b786c97f7-zz92g   1/1     Running   0     
 能看到大部分的 Pod 都被部署到有 GPU label 的 ithome-2024-worker2，當 ithome-2024-worker2 資源不足時，仍能部署到滿足 zone=local-a 條件的 ithome-2024-worker。
 
 # 小結
-今天介紹了三個引導 kubernetes 調度 Pod 到我們希望的 Node 的方式，
+今天我們介紹了三種將 Pod 調度到指定 Node 的方法：
 1. NodeName
 2. NodeSelector
 3. Node Affinity
 
-總結來說，Node Affinity 有最高的彈性，包含優先序等功能，能讓 Pod 盡量部署在滿足需求的 Node，而 NodeSelector 能簡單粗暴的滿足基本需求。
+總結來說，Node Affinity 彈性較高，提供優先序等功能，可以讓 Pod 優先部署在符合需求的 Node 上；而 NodeSelector 則是滿足基本需求的簡單方法。
 
-故建議優先採用 Node Affinity 或是 NodeSelector，避免使用 NodeName 的方式，減少服務中斷的風險。
+因此，建議優先使用 Node Affinity 或 NodeSelector，以降低服務中斷的風險，盡量避免使用 NodeName 的方式。
 
-明天會繼續介紹 `Inter-Pod Affinity`，用來滿足更多生產環境的需求。
+明天我們將繼續介紹 `Inter-Pod Affinity`，以滿足更多生產環境的需求。
 
 
 # Refernce

@@ -1,5 +1,5 @@
 
-# Day-05-Kubernetes Architecture 介紹 - kube-proxy
+# Day-06-Kubernetes Architecture 介紹 - kube-proxy
 
 # 前言
 前兩天我們認識了建立 Pod 的指令背後，在 kubernetes 中發生的一連串處理機制。
