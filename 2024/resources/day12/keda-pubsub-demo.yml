@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: keda-pubsub-demo
+    scrape: spring-boot-prometheus-exporter
+  name: keda-pubsub-demo
+  namespace: ithome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keda-pubsub-demo
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: keda-pubsub-demo
+        scrape: spring-boot-prometheus-exporter
+    spec:
+      volumes:
+        - name: gcp-sa-credentials
+          secret:
+            secretName: pubsub-secret
+            items:
+            - key: gcp-service-account-credential.json
+              path: gcp-service-account-credential.json
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: keda-pubsub-demo
+        matchLabelKeys:
+        - pod-template-hash
+      containers:
+      - image: luciferstut/spring-boot-application-for-ithome2024:day12
+        imagePullPolicy: Always
+        name: spring-boot-application-for-ithome2024
+        env:
+        - name: GOOGLE_CLOUD_PROJECT
+          value: yihonggao-1548227860432
+        - name: PUBSUB_ITHOME2024_DAY11_SUBSCRIPTION
+          value: projects/yihonggao-1548227860432/subscriptions/ithome2024.day11.subscription
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /etc/gcp/gcp-service-account-credential.json
+        - name: GOOGLE_APPLICATION_CREDENTIALS_JSON
+          valueFrom:
+            secretKeyRef:
+              name: pubsub-secret
+              key: gcp-service-account-credential.json
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - name: web
+          containerPort: 8080
+        startupProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          failureThreshold: 18
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          failureThreshold: 3
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          failureThreshold: 3
+          periodSeconds: 10
+        volumeMounts:
+        - name: gcp-sa-credentials
+          readOnly: true
+          mountPath: "/etc/gcp/"
+          
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: keda-pubsub-demo
+    scrape: spring-boot-prometheus-exporter
+  name: keda-pubsub-demo
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: keda-pubsub-demo
+status:
+  loadBalancer: {}

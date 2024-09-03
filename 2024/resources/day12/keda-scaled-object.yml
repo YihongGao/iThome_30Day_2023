@@ -1,0 +1,28 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: keda-pubsub-demo
+  namespace: ithome
+spec:
+  fallback:
+    failureThreshold: 3
+    replicas: 2
+  pollingInterval: 5
+  cooldownPeriod: 60
+  idleReplicaCount: 0
+  initialCooldownPeriod: 40
+  minReplicaCount: 1
+  maxReplicaCount: 3
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: keda-pubsub-demo
+  triggers:
+  - type: gcp-pubsub
+    metadata:
+      mode: "SubscriptionSize"
+      value: "10"
+      activationValue: "5"
+      subscriptionName: "projects/yihonggao-1548227860432/subscriptions/ithome2024.day11.subscription"
+      credentialsFromEnv: GOOGLE_APPLICATION_CREDENTIALS_JSON # Required
+        
