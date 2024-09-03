@@ -4,7 +4,6 @@ metadata:
   creationTimestamp: null
   labels:
     app: keda-pubsub-demo
-    scrape: spring-boot-prometheus-exporter
   name: keda-pubsub-demo
   namespace: ithome
 spec:
@@ -26,15 +25,6 @@ spec:
             items:
             - key: gcp-service-account-credential.json
               path: gcp-service-account-credential.json
-      topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: zone
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app: keda-pubsub-demo
-        matchLabelKeys:
-        - pod-template-hash
       containers:
       - image: luciferstut/spring-boot-application-for-ithome2024:day12
         imagePullPolicy: Always
@@ -83,25 +73,3 @@ spec:
         - name: gcp-sa-credentials
           readOnly: true
           mountPath: "/etc/gcp/"
-          
-status: {}
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  creationTimestamp: null
-  labels:
-    app: keda-pubsub-demo
-    scrape: spring-boot-prometheus-exporter
-  name: keda-pubsub-demo
-spec:
-  ports:
-  - port: 8080
-    protocol: TCP
-    targetPort: 8080
-  selector:
-    app: keda-pubsub-demo
-status:
-  loadBalancer: {}

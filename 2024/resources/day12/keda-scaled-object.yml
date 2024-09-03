@@ -6,11 +6,10 @@ metadata:
 spec:
   fallback:
     failureThreshold: 3
-    replicas: 2
+    replicas: 1
   pollingInterval: 5
   cooldownPeriod: 60
   idleReplicaCount: 0
-  initialCooldownPeriod: 40
   minReplicaCount: 1
   maxReplicaCount: 3
   scaleTargetRef:
@@ -19,10 +18,11 @@ spec:
     name: keda-pubsub-demo
   triggers:
   - type: gcp-pubsub
+    authenticationRef:
+      name: keda-trigger-auth-gcp-credentials
     metadata:
       mode: "SubscriptionSize"
       value: "10"
       activationValue: "5"
       subscriptionNameFromEnv: PUBSUB_ITHOME2024_DAY11_SUBSCRIPTION
-      credentialsFromEnv: GOOGLE_APPLICATION_CREDENTIALS_JSON # Required
         
