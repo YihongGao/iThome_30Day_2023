@@ -23,6 +23,6 @@ spec:
       mode: "SubscriptionSize"
       value: "10"
       activationValue: "5"
-      subscriptionName: "projects/yihonggao-1548227860432/subscriptions/ithome2024.day11.subscription"
+      subscriptionNameFromEnv: PUBSUB_ITHOME2024_DAY11_SUBSCRIPTION
       credentialsFromEnv: GOOGLE_APPLICATION_CREDENTIALS_JSON # Required
         
