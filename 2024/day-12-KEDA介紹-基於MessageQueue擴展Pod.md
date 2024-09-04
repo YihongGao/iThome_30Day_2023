@@ -284,6 +284,12 @@ keda-pubsub-demo-7f8944cf7f-h6br5   0/1     Running   0          31s
 keda-pubsub-demo-7f8944cf7f-rphh5   0/1     Running   0          31s
 ```
 
+# 環境清理
+因 `ScaledObject` 監聽 `Pub/Sub` 的方式是透過 [GCP Monitoring](https://cloud.google.com/monitoring) 來感知 Queue 長度，所以驗證完成後，記得把 `ScaledObject` 移除，避免產生 GCP 費用。
+```shell
+kubectl delete scaledobjects.keda.sh keda-pubsub-demo
+```
+
 # 小結
 今天我們使用了 KEDA 依據 Message Queue 的長度來作為 autoscaling 的策略依據，在 message consumer 特別消耗資源 且 message 頻率很不固定的案例中，能使用此方式避免大量資源被長時間佔用與浪費。
 
