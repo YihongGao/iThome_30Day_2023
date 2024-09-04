@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: keda-kubernetes-workload-demo
+  namespace: ithome
+spec:
+  minReplicaCount: 1
+  maxReplicaCount: 4
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: redis
+  triggers:
+  - type: kubernetes-workload
+    metadata:
+      podSelector: 'app=nginx'
+      value: '2'       
