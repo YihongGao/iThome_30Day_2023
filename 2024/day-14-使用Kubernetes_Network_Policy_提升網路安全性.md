@@ -210,8 +210,14 @@ spec:
 ```
 僅允許 tier=backend 的 Pod 傳入流量，但不允許任何出站流量，減少資料被直接從內部搬出的風險。
 
+# 注意事項
+並不是每個 Kubernetes 都支援 NetworkPolicy，需要該 Kubernetes 使用的 CNI，否則配置的 NetworkPolicy，不會發揮作用也不會給出提示錯誤訊息，參考[官方文件](
+https://kubernetes.io/docs/concepts/services-networking/network-policies/#prerequisites)
+> 📘 kind 預設使用的 CNI 不支援 NetworkPolicy，需要安裝 [cilium](https://docs.cilium.io/en/stable/installation/kind/)之類的 CNI。
+
 # 小結
-今天我們介紹了 NetworkPolicy 這個 Kubernetes 管理網路流量的資源，並參考傳統 three-tier 架構的配置來提升服務安全性，有興趣的
+今天我們介紹了 NetworkPolicy 這個 Kubernetes 管理網路流量的資源，並參考傳統 three-tier 架構的配置來提升服務安全性，有興趣的讀者能依照需求配置 NetworkPolicy，例如
+- 每個 Pod 只允許存取有依賴的 Pod 或外部服務，而不是個 tier 的 Pod。
 
 # Refernce
 - [Kubernetes 官方文件](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/#networkpolicy-resource)
