@@ -1,5 +1,5 @@
 
-# Day-12 KEDA 介紹 - 基於 Message Queue 自動擴展 Pod
+# Day-13 KEDA 介紹 - 基於 Kubernetes Resource 擴展 Pod
 
 # 前言
 前兩天 Demo 了透過 Prometheus、Message Queue 配置自動擴展策略，但有時候我們希望使用更簡單的策略，例如 **依據上游 Pod 的數量來進行擴展**，理論上 上游的 Pod 進行 scale out 時，下游 Pod 可能也會收到更多流量，故若是上游服務的自動擴展已經夠完整時，作為下游的服務有時候能參考上游 Pod 數量來進行擴展。
