@@ -160,7 +160,6 @@ nginx-7584b6f84c-5bqlm   1/1     Running   0          73m
 nginx-7584b6f84c-bmhhv   1/1     Running   0          79m
 redis-644585c74b-8v5rp   1/1     Running   0          79m
 ```
-> 📘 想了解更多 [HPA] 的行為可參考[官方文件](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior)
 > 📘 `ScaledObject` 能透過 advanced block 調整 [HPA] 的行為，能參考 [KEDA 官方文件](https://keda.sh/docs/2.15/reference/scaledobject-spec/#overview)
 
 # 小結

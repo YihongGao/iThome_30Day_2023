@@ -1,5 +1,5 @@
 
-# Day-07-如何調度你的 Pod - Node Selector / Node Affinity
+# Day-07-Kubernetes 如何調度你的 Pod - Node Selector / Node Affinity
 
 # 前言
 今天我們要來介紹如何引導 Kubernetes 將 Pod 調度到我們希望的 Node。

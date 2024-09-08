@@ -29,7 +29,10 @@ KEDA 再 Kubernetes 中，透過以下三個主要組件 與 HPA 互相合作來
 
 ## 主要組件
 1. Controller : 依照配置判段 Workload 是否需要啟動，需要啟動時將 replica 調整為 1，而需要關閉時將 replica 調整為 0。
-2. Metrics Adapter : 將外部事件轉為 metrics 提供給 HPA，進行進一步擴縮容決策。
+> 📘 KEDA 會與 HPA 協同作業，KEDA Controller 只負責調整 Pod Replica 0 -> 1 or 1 -> 0 的擴/縮容，其餘會交給 HPA 利用 external metrics 來處理 Replica 1 -> n or n -> 1 的擴/縮容。
+
+2. Metrics Adapter : 將外部事件轉為 metrics 提供給 HPA，進行進一步擴/縮容決策。
+
 3. Admission Webhooks：用於驗證 Kubernetes 資源的變更，避免配置錯誤。
 
 簡單來說，KEDA 會監控外部服務(如 Prometheus)提供的 metrics，透過 Metrics Adapter 將 metrics 提供給 Controller 與 HPA，使其根據 metrics value 來控制 workload 副本數量。
